@@ -61,9 +61,9 @@ class ClassSearch():
 
 
     def iterate_subject_options(self):
-        self.subjects = []
-        self.subjects.append("BSWT")
-        self.subjects.append("BCH ")
+        #self.subjects = []
+        #self.subjects.append("BSWT")
+        #self.subjects.append("BCH ")
         for subject in self.subjects:
             time.sleep(2)  ###IMPROVABLE
             subject_element = Select(self.driver.find_element_by_name("drp_subjectArea"))
