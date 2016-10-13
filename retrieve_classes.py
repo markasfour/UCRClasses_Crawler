@@ -65,12 +65,18 @@ class ClassSearch():
         else:
           self.num_pages = self.num_pages + 1
         print "going to page %s" %self.num_pages
+        
+    #---MAIN FUNCTION TO RETRIEVE TEXT OF TABLE PAGES---#    
     def getinfo(self):
-         table = []
-         table = self.driver.find_elements_by_xpath('//*[@id="grid_students"]/tbody/tr/td')
-         for i in table:
-            print i.text
-         
+      table = []
+      for x in range(2, 12):
+        table += self.driver.find_elements_by_xpath('//*[@id="grid_students"]/tbody/tr[' + str(x) + ']/td')
+        if x == 2:
+          table += self.driver.find_elements_by_xpath('//*[@id="grid_students"]/tbody/tr[' + str(x) + ']/td/span/span')
+        else:
+          table += self.driver.find_elements_by_xpath('//*[@id="grid_students"]/tbody/tr[' + str(x) + ']/td/span/b/span')
+      for t in table:
+        print t.get_attribute('innerText').strip()
 
 
     def iterate_subject_options(self):
@@ -85,26 +91,21 @@ class ClassSearch():
             self.click_search()
             time.sleep(3)  ###IMPROVABLE
             
+#            self.getinfo()
             with open("test.txt", "a") as myfile:
-              #---RETRIEVE DATA FROM ALL PAGES FOR THIS SUBJECT---
-              win = []
-              win += self.driver.find_elements_by_xpath('//*[@id="grid_students"]/tbody/tr/td/span/span')
-              win += self.driver.find_elements_by_xpath('//*[@id="grid_students"]/tbody/tr/td/span/b/span')
-              for w in win:
-                myfile.write(w.get_attribute('innerText').strip())
-#                print w.get_attribute('innerText')
-
-
+              self.getinfo()
+              print('\n')
+            #---RETRIEVE DATA FROM ALL PAGES FOR THIS SUBJECT---
               self.get_next_page()
               while self.num_pages != 0:
                 page_link = "javascript:__doPostBack('grid_students','Page$%s')" %self.num_pages 
                 self.driver.find_element_by_xpath('//a[@href="'+page_link+'"]').click()
-
                 time.sleep(2)  ###IMPROVABLE
                 self.get_next_page()
-                #self.getinfo()
-                #---RETRIEVE DATA FROM ALL PAGES FOR THIS SUBJECT---
-
+                
+                self.getinfo()
+                print('\n')
+            #---RETRIEVE DATA FROM ALL PAGES FOR THIS SUBJECT---
 
 if __name__ == "__main__":
     retriever = ClassSearch()
