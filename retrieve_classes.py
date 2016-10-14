@@ -68,14 +68,17 @@ class ClassSearch():
         
     #---MAIN FUNCTION TO RETRIEVE TEXT OF TABLE PAGES---#    
     def getinfo(self):
-      for x in range (02, 11):
+      for x in range (02, 12):
         if (x < 10):
             popup = "javascript:__doPostBack('grid_students$ctl0"+str(x)+"$lnkbtn_courseTitle','')"
         else:
             popup = "javascript:__doPostBack('grid_students$ctl"+str(x)+"$lnkbtn_courseTitle','')"
- 
+         
         self.driver.find_element_by_xpath('//a[@href="'+popup+'"]').click()
-#      table = []
+        time.sleep(1)
+        self.driver.find_element_by_xpath('//*[@id="ClassInfo"]/a').click()
+        time.sleep(1)
+#       table = []
 #      table += self.driver.find_elements_by_xpath('//*[@id="lbl_callNo"]')
 #      for t in table:
 #      print t.get_attribute('innerText').strip()
