@@ -103,11 +103,11 @@ class ClassSearch():
         #subject -> anthro -> class_name -> class_sec -> call_num/instructor/units/max_enroll...restrictions
         #
 
-#        class_name = table[0]
-#        class_sec = table [1]
-#        call_num = table[2]
-#        instructor = table[3] 
-#        units = table[4]
+        class_name = table[0]
+        class_sec = table [1]
+        call_num = table[2]
+        instructor = table[3] 
+        units = table[4]
 #        max_enroll = table[5]
 #        class_type = table[6]
 #        days =  table[7]
@@ -124,8 +124,8 @@ class ClassSearch():
 #        final_time = table[18]
 #        description = table[19]
 #        
-#        first = firebase.put(class_name, class_sec, call_num ) 
-        first = firebase.put('class_name','class_sec', 'call_num' ) 
+        first = firebase.put(class_name, class_sec,{call_num:instructor}) 
+#        first = firebase.put('class_name','class_sec', 'call_num' ) 
         print(first)
         for t in table:
           print t
@@ -176,7 +176,11 @@ class ClassSearch():
           #---RETRIEVE DATA FROM ALL PAGES FOR THIS SUBJECT---
 
 if __name__ == "__main__":
-    firebase = firebase.FirebaseApplication('https://console.firebase.google.com/project/cs180-bf6af')
+    firebase = firebase.FirebaseApplication('https://cs180-bf6af.firebaseio.com/', authentication=None)
+#    authentication = firebase.Authentication('SECRET', 'bchen022@ucr.edu', extra={'id':123})
+#    firebase.authentication = authentication
+#    print authentication.extra
+
     retriever = ClassSearch()
     retriever.start_connection()
     retriever.get_subject_options()
