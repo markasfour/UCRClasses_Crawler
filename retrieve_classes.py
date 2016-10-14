@@ -73,11 +73,34 @@ class ClassSearch():
             popup = "javascript:__doPostBack('grid_students$ctl0"+str(x)+"$lnkbtn_courseTitle','')"
         else:
             popup = "javascript:__doPostBack('grid_students$ctl"+str(x)+"$lnkbtn_courseTitle','')"
-         
+        table = []
         self.driver.find_element_by_xpath('//a[@href="'+popup+'"]').click()
-        time.sleep(1)
+        time.sleep(2)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_courseTitle"]/b/font').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_courseNum"]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_callNo"]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_instructor"]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_units"]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_maxEnrollment"]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[1]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[2]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[3]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[4]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[5]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_availableSeats"]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_waitlistMax"]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_onWaitList"]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_coquisites"]/font').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_prerequisties"]/font').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_restrictionsA"]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_finalExamDate"]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_finalExamDateA"]').text)
+        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_notes"]').text)
+        for t in table:
+          print t
         self.driver.find_element_by_xpath('//*[@id="ClassInfo"]/a').click()
-        time.sleep(1)
+        time.sleep(2)
+        
 #       table = []
 #      table += self.driver.find_elements_by_xpath('//*[@id="lbl_callNo"]')
 #      for t in table:
