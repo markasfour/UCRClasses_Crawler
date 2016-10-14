@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 import contextlib
+import json
 from firebase import firebase
 
 from scrapy.spiders import BaseSpider
@@ -102,29 +103,34 @@ class ClassSearch():
         
         #subject -> anthro -> class_name -> class_sec -> call_num/instructor/units/max_enroll...restrictions
         #
-
         class_name = table[0]
         class_sec = table [1]
-        call_num = table[2]
-        instructor = table[3] 
-        units = table[4]
-#        max_enroll = table[5]
-#        class_type = table[6]
-#        days =  table[7]
-#        time =  table[8]
-#        rm_num = table[9]
-#        rm_loc = table[10]
-#        avail_seats = table[11]
-#        max_waitlist = table[12]
-#        on_waitlist = table[13]
-#        coreqs = table[14]
-#        prereqs = table[15]
-#        restrictions = table[16]
-#        final_date = table[17]
-#        final_time = table[18]
-#        description = table[19]
+        class classinfo(object):
+            def __init__(self):
+
+                self.call_num = table[2]
+                self.instructor = table[3] 
+                self.units = table[4]
+                self.max_enroll = table[5]
+                self.class_type = table[6]
+                self.days =  table[7]
+                self.time =  table[8]
+                self.rm_num = table[9]
+                self.rm_loc = table[10]
+                self.avail_seats = table[11]
+                self.max_waitlist = table[12]
+                self.on_waitlist = table[13]
+                self.coreqs = table[14]
+                self.prereqs = table[15]
+                self.restrictions = table[16]
+                self.final_date = table[17]
+                self.final_time = table[18]
+                self.description = table[19]
+       
+        class_info = classinfo()
+        class_info_json = json.dumps(class_info.__dict__)
 #        
-        first = firebase.put(class_name, class_sec,{call_num:instructor}) 
+        first = firebase.put(class_name, class_sec, class_info_json) 
 #        first = firebase.put('class_name','class_sec', 'call_num' ) 
         print(first)
         for t in table:
