@@ -69,14 +69,19 @@ class ClassSearch():
     #---MAIN FUNCTION TO RETRIEVE TEXT OF TABLE PAGES---#    
     def getinfo(self):
       table = []
-      for x in range(2, 12):
-        table += self.driver.find_elements_by_xpath('//*[@id="grid_students"]/tbody/tr[' + str(x) + ']/td')
-        if x == 2:
-          table += self.driver.find_elements_by_xpath('//*[@id="grid_students"]/tbody/tr[' + str(x) + ']/td/span/span')
-        else:
-          table += self.driver.find_elements_by_xpath('//*[@id="grid_students"]/tbody/tr[' + str(x) + ']/td/span/b/span')
+      table += self.driver.find_elements_by_xpath('//*[@id="lbl_callNo"]')
       for t in table:
         print t.get_attribute('innerText').strip()
+      
+#      for x in range(2, 12):
+#        table += self.driver.find_elements_by_xpath('//*[@id="grid_students"]/tbody/tr[' + str(x) + ']/td')
+#        if x == 2:
+#          table += self.driver.find_elements_by_xpath('//*[@id="grid_students"]/tbody/tr[' + str(x) + ']/td/span/span')
+#        else:
+#          table += self.driver.find_elements_by_xpath('//*[@id="grid_students"]/tbody/tr[' + str(x) + ']/td/span/b/span')
+
+#      for t in table:
+#        print t.get_attribute('innerText').strip()
 
 
     def iterate_subject_options(self):
