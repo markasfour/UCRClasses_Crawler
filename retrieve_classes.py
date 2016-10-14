@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 import contextlib
+from firebase import firebase
 
 from scrapy.spiders import BaseSpider
 from scrapy.selector import HtmlXPathSelector
@@ -96,6 +97,36 @@ class ClassSearch():
         table.append(self.driver.find_element_by_xpath('//*[@id="lbl_finalExamDate"]').text)
         table.append(self.driver.find_element_by_xpath('//*[@id="lbl_finalExamDateA"]').text)
         table.append(self.driver.find_element_by_xpath('//*[@id="lbl_notes"]').text)
+        #each table will have 0 to 19 indexes
+
+        
+        #subject -> anthro -> class_name -> class_sec -> call_num/instructor/units/max_enroll...restrictions
+        #
+
+#        class_name = table[0]
+#        class_sec = table [1]
+#        call_num = table[2]
+#        instructor = table[3] 
+#        units = table[4]
+#        max_enroll = table[5]
+#        class_type = table[6]
+#        days =  table[7]
+#        time =  table[8]
+#        rm_num = table[9]
+#        rm_loc = table[10]
+#        avail_seats = table[11]
+#        max_waitlist = table[12]
+#        on_waitlist = table[13]
+#        coreqs = table[14]
+#        prereqs = table[15]
+#        restrictions = table[16]
+#        final_date = table[17]
+#        final_time = table[18]
+#        description = table[19]
+#        
+#        first = firebase.put(class_name, class_sec, call_num ) 
+        first = firebase.put('class_name','class_sec', 'call_num' ) 
+        print(first)
         for t in table:
           print t
         self.driver.find_element_by_xpath('//*[@id="ClassInfo"]/a').click()
@@ -145,6 +176,7 @@ class ClassSearch():
           #---RETRIEVE DATA FROM ALL PAGES FOR THIS SUBJECT---
 
 if __name__ == "__main__":
+    firebase = firebase.FirebaseApplication('https://console.firebase.google.com/project/cs180-bf6af')
     retriever = ClassSearch()
     retriever.start_connection()
     retriever.get_subject_options()
