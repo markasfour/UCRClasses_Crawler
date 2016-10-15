@@ -4,8 +4,15 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 import contextlib
-import json
+
 from firebase import firebase
+import json
+import serial
+import time
+import requests
+import json
+
+firebase_url = 'https://cs180-bf6af.firebaseio.com/'
 
 from scrapy.spiders import BaseSpider
 from scrapy.selector import HtmlXPathSelector
@@ -99,42 +106,54 @@ class ClassSearch():
         table.append(self.driver.find_element_by_xpath('//*[@id="lbl_finalExamDateA"]').text)
         table.append(self.driver.find_element_by_xpath('//*[@id="lbl_notes"]').text)
         #each table will have 0 to 19 indexes
+        
+        data = {'CourseTitle': table[0], 'name': table[2]}
+        
+#        data = {'CourseTitle': table[0], 'CourseNumber': table[1], 'CallNumber': table[2], 'Instructor': table[3], 'Units': table[4], 'MaxEnrollment': table[5], 'Lec/Dis': table[6], 'Days': table[7], 'Time': table[8], 'RoomAbrv': table[9], 'BuildingName': table[10], 'AvailableSeats': table[11], 'WaitListMax': table[12], 'NumberonWaitList': table[13], 'Co-requisites': table[14], 'Prerequisites': table[15], 'Restrictions': table[16], 'FinalExamDate': table[17], 'FinalExamTime': table[18], 'CatalogDescription': table[19]}
+        
+        result = requests.post(firebase_url + '/' + table[0] + '/' + 'course.json', data=json.dumps(data))
+#        result = requests.post(firebase_url + '/' + table[0] + '/course.json', data=json.dumps(data))
+        print 'Record inserted. Result Code = ' + str(result.status_code) + ',' + result.text
 
         
         #subject -> anthro -> class_name -> class_sec -> call_num/instructor/units/max_enroll...restrictions
         #
-        class_name = table[0]
-        class_sec = table [1]
-        class classinfo(object):
-            def __init__(self):
-
-                self.call_num = table[2]
-                self.instructor = table[3] 
-                self.units = table[4]
-                self.max_enroll = table[5]
-                self.class_type = table[6]
-                self.days =  table[7]
-                self.time =  table[8]
-                self.rm_num = table[9]
-                self.rm_loc = table[10]
-                self.avail_seats = table[11]
-                self.max_waitlist = table[12]
-                self.on_waitlist = table[13]
-                self.coreqs = table[14]
-                self.prereqs = table[15]
-                self.restrictions = table[16]
-                self.final_date = table[17]
-                self.final_time = table[18]
-                self.description = table[19]
-       
-        class_info = classinfo()
-        class_info_json = json.dumps(class_info.__dict__)
-#        
-        first = firebase.put(class_name, class_sec, class_info_json) 
+#        class_name = table[0]
+#        class_sec = table [1]
+#        class classinfo(object):
+#            def __init__(self):
+#
+#                self.call_num = table[2]
+#                self.instructor = table[3] 
+#                self.units = table[4]
+#                self.max_enroll = table[5]
+#                self.class_type = table[6]
+#                self.days =  table[7]
+#                self.time =  table[8]
+#                self.rm_num = table[9]
+#                self.rm_loc = table[10]
+#                self.avail_seats = table[11]
+#                self.max_waitlist = table[12]
+#                self.on_waitlist = table[13]
+#                self.coreqs = table[14]
+#                self.prereqs = table[15]
+#                self.restrictions = table[16]
+#                self.final_date = table[17]
+#                self.final_time = table[18]
+#                self.description = table[19]
+#       
+#        class_info = classinfo()
+#        class_info_json = json.dumps(class_info.__dict__)
+##        
+#        first = firebase.put(class_name, class_sec, class_info_json) 
 #        first = firebase.put('class_name','class_sec', 'call_num' ) 
-        print(first)
-        for t in table:
-          print t
+#        print(first)
+
+
+#        for t in table:
+#          print t
+
+
         self.driver.find_element_by_xpath('//*[@id="ClassInfo"]/a').click()
         time.sleep(2)
         
