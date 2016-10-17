@@ -86,41 +86,233 @@ class ClassSearch():
     def get_info(self, subject):
       for x in range (02, 12):
         if (x < 10):
+          try:
             popup = "javascript:__doPostBack('grid_students$ctl0"+str(x)+"$lnkbtn_courseTitle','')"
+            table = []
+            self.driver.find_element_by_xpath('//a[@href="'+popup+'"]').click()
+            time.sleep(2)
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_courseTitle"]/b/font').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_courseNum"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_callNo"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_instructor"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_units"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_maxEnrollment"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[1]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[2]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[3]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[4]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[5]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_availableSeats"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_waitlistMax"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_onWaitList"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_coquisites"]/font').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_prerequisties"]/font').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_restrictionsA"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_finalExamDate"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_finalExamDateA"]').text)
+            except:
+                table.append("n/a")
+                continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_notes"]').text)
+            except:
+              table.append("n/a")
+              continue
+            #each table will have 0 to 19 indexes
+            data = {'Subject': subject, 'CourseTitle': table[0], 'CourseNum': table[1], 'CallNo': table[2], 'Instructor': table[3], 'Units': table[4], 'MaxEnrollment': table[5], 'Lec_Dis': table[6], 'Days': table[7], 'Time': table[8], 'RoomAbrv': table[9], 'BuildingName': table[10], 'AvailableSeats': table[11], 'WaitListMax': table[12], 'NumberonWaitList': table[13], 'Co-requisites': table[14], 'Prerequisites': table[15], 'Restrictions': table[16], 'FinalExamDate': table[17], 'FinalExamTime': table[18], 'CatalogDescription': table[19]}
+            result = requests.patch(firebase_url + '/' + self.quarter + '/' + subject + '/' + table[2] + '.json', data=json.dumps(data))
+            print 'Record inserted. Result Code = ' + str(result.status_code) + ',' + result.text
+            self.driver.find_element_by_xpath('//*[@id="ClassInfo"]/a').click()
+            time.sleep(2)
+          except:
+            continue
         else:
+          try:
             popup = "javascript:__doPostBack('grid_students$ctl"+str(x)+"$lnkbtn_courseTitle','')"
-        table = []
-        self.driver.find_element_by_xpath('//a[@href="'+popup+'"]').click()
-        time.sleep(2)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_courseTitle"]/b/font').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_courseNum"]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_callNo"]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_instructor"]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_units"]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_maxEnrollment"]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[1]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[2]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[3]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[4]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[5]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_availableSeats"]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_waitlistMax"]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_onWaitList"]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_coquisites"]/font').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_prerequisties"]/font').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_restrictionsA"]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_finalExamDate"]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_finalExamDateA"]').text)
-        table.append(self.driver.find_element_by_xpath('//*[@id="lbl_notes"]').text)
-        #each table will have 0 to 19 indexes
-        
-        data = {'Subject': subject, 'CourseTitle': table[0], 'CourseNum': table[1], 'CallNo': table[2], 'Instructor': table[3], 'Units': table[4], 'MaxEnrollment': table[5], 'Lec_Dis': table[6], 'Days': table[7], 'Time': table[8], 'RoomAbrv': table[9], 'BuildingName': table[10], 'AvailableSeats': table[11], 'WaitListMax': table[12], 'NumberonWaitList': table[13], 'Co-requisites': table[14], 'Prerequisites': table[15], 'Restrictions': table[16], 'FinalExamDate': table[17], 'FinalExamTime': table[18], 'CatalogDescription': table[19]}
-         
-        result = requests.patch(firebase_url + '/' + self.quarter + '/' + subject + '/' + table[2] + '.json', data=json.dumps(data))
-        print 'Record inserted. Result Code = ' + str(result.status_code) + ',' + result.text
-
-        self.driver.find_element_by_xpath('//*[@id="ClassInfo"]/a').click()
-        time.sleep(2)
+            table = []
+            self.driver.find_element_by_xpath('//a[@href="'+popup+'"]').click()
+            time.sleep(2)
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_courseTitle"]/b/font').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_courseNum"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_callNo"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_instructor"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_units"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_maxEnrollment"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[1]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[2]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[3]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[4]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[5]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_availableSeats"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_waitlistMax"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_onWaitList"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_coquisites"]/font').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_prerequisties"]/font').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_restrictionsA"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_finalExamDate"]').text)
+            except:
+              table.append("n/a")
+              continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_finalExamDateA"]').text)
+            except:
+                table.append("n/a")
+                continue
+            try:
+              table.append(self.driver.find_element_by_xpath('//*[@id="lbl_notes"]').text)
+            except:
+              table.append("n/a")
+              continue
+            #each table will have 0 to 19 indexes
+            data = {'Subject': subject, 'CourseTitle': table[0], 'CourseNum': table[1], 'CallNo': table[2], 'Instructor': table[3], 'Units': table[4], 'MaxEnrollment': table[5], 'Lec_Dis': table[6], 'Days': table[7], 'Time': table[8], 'RoomAbrv': table[9], 'BuildingName': table[10], 'AvailableSeats': table[11], 'WaitListMax': table[12], 'NumberonWaitList': table[13], 'Co-requisites': table[14], 'Prerequisites': table[15], 'Restrictions': table[16], 'FinalExamDate': table[17], 'FinalExamTime': table[18], 'CatalogDescription': table[19]}
+            result = requests.patch(firebase_url + '/' + self.quarter + '/' + subject + '/' + table[2] + '.json', data=json.dumps(data))
+            print 'Record inserted. Result Code = ' + str(result.status_code) + ',' + result.text
+            self.driver.find_element_by_xpath('//*[@id="ClassInfo"]/a').click()
+            time.sleep(2)
+          except:
+            continue
         
 
     def iterate_subject_options(self):
