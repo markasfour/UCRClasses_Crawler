@@ -14,6 +14,7 @@ import serial
 import time
 import requests
 import json
+import sys
 
 firebase_url = 'https://cs180-bf6af.firebaseio.com/'
 
@@ -188,9 +189,15 @@ class ClassSearch():
 
         
 
-    def iterate_subject_options(self):
+    def iterate_subject_options(self, start):
 	self.subjects.reverse()
         self.subjects = self.subjects[:len(self.subjects)/2]
+
+        if start != '':
+            index = self.subjects.index(start)
+            for i in range (index):
+                self.subjects.pop(0)
+
         for subject in self.subjects:  
             time.sleep(2)  ###IMPROVABLE
             subject_element = Select(self.driver.find_element_by_name("drp_subjectArea"))
@@ -218,5 +225,9 @@ if __name__ == "__main__":
     retriever.start_connection()
     retriever.get_quarter()
     retriever.get_subject_options()
-    retriever.iterate_subject_options()
+    if len(sys.argv) == 2:
+        print "starting at " + str(sys.argv[1])
+    	retriever.iterate_subject_options((sys.argv[1]))
+    else:
+        retriever.iterate_subject_options('')
     retriever.end_connection()
