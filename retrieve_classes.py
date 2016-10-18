@@ -189,11 +189,12 @@ class ClassSearch():
         
 
     def iterate_subject_options(self):
+        self.subjects = self.subjects[11:len(self.subjects)/2]
         for subject in self.subjects:  
-            time.sleep(2)  ###IMPROVABLE
+            time.sleep(3)  ###IMPROVABLE
             subject_element = Select(self.driver.find_element_by_name("drp_subjectArea"))
             subject_element.select_by_value(subject)
-            time.sleep(2)  ###IMPROVABLE
+            time.sleep(3)  ###IMPROVABLE
             self.click_search()
             time.sleep(3)  ###IMPROVABLE
             
@@ -203,7 +204,7 @@ class ClassSearch():
             while self.num_pages != 0:
               page_link = "javascript:__doPostBack('grid_students','Page$%s')" %self.num_pages
               self.driver.find_element_by_xpath('//a[@href="'+page_link+'"]').click()
-              time.sleep(2)  ###IMPROVABLE
+              time.sleep(3)  ###IMPROVABLE
               self.get_next_page()
               
               self.get_info(subject)
