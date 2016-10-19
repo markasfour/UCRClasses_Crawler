@@ -3,6 +3,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -25,6 +26,7 @@ class ClassSearch():
         self.quarter = ''
 	self.subjects = []
         self.num_pages = 0
+        self.wait = WebDriverWait(self.driver, 5)
 
 
     def start_connection(self):
@@ -97,7 +99,8 @@ class ClassSearch():
 
           table = []
           self.driver.find_element_by_xpath('//a[@href="'+popup+'"]').click()
-          time.sleep(3)
+          #time.sleep(3)
+          self.wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="exposeMask"][contains(@style, "display: block; opacity: 0.8")]')))
           try:
             table.append(self.driver.find_element_by_xpath('//*[@id="lbl_courseTitle"]/b/font').text)
           except:
@@ -181,41 +184,93 @@ class ClassSearch():
           self.driver.find_element_by_xpath('//*[@id="ClassInfo"]/a').click()
           #each table will have 0 to 19 indexes
           data = {'Subject': subject, 'CourseTitle': table[0], 'CourseNum': table[1], 'CallNo': table[2], 'Instructor': table[3], 'Units': table[4], 'MaxEnrollment': table[5], 'Lec_Dis': table[6], 'Days': table[7], 'Time': table[8], 'RoomAbrv': table[9], 'BuildingName': table[10], 'AvailableSeats': table[11], 'WaitListMax': table[12], 'NumberonWaitList': table[13], 'Co-requisites': table[14], 'Prerequisites': table[15], 'Restrictions': table[16], 'FinalExamDate': table[17], 'FinalExamTime': table[18], 'CatalogDescription': table[19]}
+
+          #Do not send data to DB if there is no CourseNum
+          if table[1] == '' or table[1] == 'n/a':
+              continue
+
           result = requests.patch(firebase_url + '/' + self.quarter + '/' + subject + '/' + table[2] + '.json', data=json.dumps(data))
           print 'Record inserted. Result Code = ' + str(result.status_code) + ',' + result.text
-          time.sleep(3)
+          #time.sleep(3)
         except:
           continue
 
-        
 
-    def iterate_subject_options(self, start):
-        self.subjects = self.subjects[11:len(self.subjects)/2]
+    def reverse_subjects(self):
+        self.subjects.reverse()   
+        print "Reversed subject order to retrieve"
 
+
+    def half_subjects_list(self):
+        self.subjects = self.subjects[:len(self.subjects)/2]
+        print "Halved the subject list"
+
+
+    def set_start_subject(self, start):
         if start != '':
-            index = self.subjects.index(start)
+            try:
+                index = self.subjects.index(start)
+            except:
+                print "Subject " + start + " was not found. Starting at " + self.subjects[0]
+                return 
             for i in range (index):
                 self.subjects.pop(0)
+            print "Starting at " + start
 
+
+    def set_end_subject(self, end):
+        if end != '':
+            try:
+                index = self.subjects.index(end)
+            except:
+                print "Subject " + end + " was not found. Ending at " + self.subjects[len(self.subjects) - 1]
+            for i in range (len(self.subjects) - index - 1):
+                self.subjects.pop(len(self.subjects) - 1)   
+            print "Ending at " + end
+
+
+    def iterate_subject_options(self):
         for subject in self.subjects:  
-            time.sleep(3)  ###IMPROVABLE
+            #time.sleep(2)  ###IMPROVABLE
+            self.wait.until(EC.presence_of_element_located((By.NAME, "drp_subjectArea"))) 
             subject_element = Select(self.driver.find_element_by_name("drp_subjectArea"))
             subject_element.select_by_value(subject)
-            time.sleep(3)  ###IMPROVABLE
+            #time.sleep(2)  ###IMPROVABLE
             self.click_search()
             time.sleep(3)  ###IMPROVABLE
-            
+            #self.wait.until(EC.presence_of_element_located((By.ID, "pnel_Classes")))
+
             self.get_info(subject)
             print('\n')
             self.get_next_page()
             while self.num_pages != 0:
               page_link = "javascript:__doPostBack('grid_students','Page$%s')" %self.num_pages
               self.driver.find_element_by_xpath('//a[@href="'+page_link+'"]').click()
-              time.sleep(3)  ###IMPROVABLE
+              time.sleep(2)  ###IMPROVABLE
+              #self.wait.until(EC.presence_of_element_located((By.ID, "pnel_Classes")))
               self.get_next_page()
               
               self.get_info(subject)
               print('\n')
+
+
+def arguments_reader(retriever):
+    try:
+       sys.argv.index('-r') 
+       retriever.reverse_subjects()
+       sys.argv.pop(sys.argv.index('-r'))
+    except: 
+       pass
+    try:
+       sys.argv.index('-h')
+       retriever.half_subjects_list()
+       sys.argv.pop(sys.argv.index('-h'))
+    except:
+       pass
+    if len(sys.argv) >= 2:
+    	retriever.set_start_subject(sys.argv[1])
+        if len(sys.argv) == 3:
+    	    retriever.set_end_subject(sys.argv[2])
 
 
 if __name__ == "__main__":
@@ -224,9 +279,6 @@ if __name__ == "__main__":
     retriever.start_connection()
     retriever.get_quarter()
     retriever.get_subject_options()
-    if len(sys.argv) == 2:
-        print "starting at " + str(sys.argv[1])
-    	retriever.iterate_subject_options((sys.argv[1]))
-    else:
-        retriever.iterate_subject_options('')
+    arguments_reader(retriever)
+    retriever.iterate_subject_options()
     retriever.end_connection()
