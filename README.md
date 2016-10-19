@@ -6,6 +6,7 @@ This python script retrieves UCR class information from http://classes.ucr.edu a
 * **-r** : Reverses the subject list to iterate through
 * **-h** : Halves the subject list
 * Two more arguments can be passed to indicate the starting subject and/or the ending subject (subjects are 4 characters each. Use '' to include spaces)
+
 #### Example
 ```
 python retrieve_classes.py -r 'CS  ' 'BIOL' 
