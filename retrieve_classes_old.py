@@ -31,7 +31,7 @@ class ClassSearch():
 
     def start_connection(self):
         driver = self.driver
-        driver.get("http://classes.ucr.edu")
+        driver.get("http://student08.ucr.edu/em/classes/ScheduleNew/Index.aspx?browse=Browse")
 
         
     def end_connection(self):
