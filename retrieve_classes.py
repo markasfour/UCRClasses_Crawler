@@ -27,6 +27,7 @@ class ClassSearch():
         self.reverse = 0
         self.half = 0
         self.total_pages = 0
+        self.classes_list = []
         self.wait = WebDriverWait(self.driver, 5)
 
 
@@ -87,6 +88,21 @@ class ClassSearch():
            return 0
 
 
+    def get_classes_on_page(self): 
+       self.classes_list = self.driver.find_elements_by_class_name('section-details-link')
+       print str(len(self.classes_list)) + " classes on this page"
+
+
+    def click_class(self, x):
+       self.classes_list[x].click()
+       self.wait.until(EC.presence_of_element_located((By.ID, "courseReferenceNumber")))
+
+
+    def close_class(self):
+       self.driver.find_element_by_class_name("ui-icon-closethick").click()
+       self.wait.until(EC.invisibility_of_element_located((By.ID, "courseReferenceNumber")))
+
+
     def iterate_pages(self):
        counter = 1
        if self.reverse:
@@ -101,6 +117,10 @@ class ClassSearch():
                pass
 
        #GET INITIAL PAGE CLASS INFORMATION HERE
+       self.get_classes_on_page()
+       for x in range(0, len(self.classes_list)):
+           self.click_class(x)
+           self.close_class()
 
        while self.get_next_page():
            try:
@@ -113,6 +133,10 @@ class ClassSearch():
                pass
 
            #GET CLASS INFORMATION HERE
+           self.get_classes_on_page()           
+           for x in range(0, len(self.classes_list)):
+               self.click_class(x)
+               self.close_class()
 
            print "working"
            counter = counter + 1
