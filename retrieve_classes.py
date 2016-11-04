@@ -19,6 +19,32 @@ import sys
 
 firebase_url = 'https://cs180-bf6af.firebaseio.com/'
 
+class course():
+
+    def __init__(self):
+        self.AvailableSeats = "" 
+        self.BuildingName = ""
+        self.CallNo = ""
+        self.CatalogDescription = ""
+        self.Co_requisites = ""
+        self.CourseNum = ""
+        self.CourseTitle = ""
+        self.Days = ""
+        self.FinalExameDate = ""
+        self.FinalExameTime = ""
+        self.Instructor = ""
+        self.Lec_Dis = ""
+        self.MaxEnrollment = ""
+        self.NumberonWaitList = ""
+        self.Prerequisites = ""
+        self.Restrictions = ""
+        self.RoomAbrv = ""
+        self.Subject = ""
+        self.Time = ""
+        self.Units = ""
+        self.WaitListMax = ""
+
+
 class ClassSearch():
 
     def __init__(self):
@@ -28,6 +54,7 @@ class ClassSearch():
         self.half = 0
         self.total_pages = 0
         self.classes_list = []
+        self.class_info = course()
         self.wait = WebDriverWait(self.driver, 5)
 
 
@@ -79,9 +106,11 @@ class ClassSearch():
     def get_next_page(self):
        try:
            if self.reverse == 0:
+               time.sleep(2)
                self.driver.find_element_by_class_name("next").click()
                return 1
            elif self.reverse == 1:
+               time.sleep(2)
                self.driver.find_element_by_class_name("previous").click()
                return 1
        except:
@@ -95,12 +124,25 @@ class ClassSearch():
 
     def click_class(self, x):
        self.classes_list[x].click()
-       self.wait.until(EC.presence_of_element_located((By.ID, "courseReferenceNumber")))
+       try:
+           self.wait.until(EC.presence_of_element_located((By.ID, "courseReferenceNumber")))
+       except:
+           pass
 
 
     def close_class(self):
        self.driver.find_element_by_class_name("ui-icon-closethick").click()
-       self.wait.until(EC.invisibility_of_element_located((By.ID, "courseReferenceNumber")))
+       try:
+           self.wait.until(EC.invisibility_of_element_located((By.ID, "courseReferenceNumber")))
+       except:
+           pass
+
+
+    def get_class_info(self):
+       print "GET CLASS INFO FROM POPUP HERE"
+       ###EXAMPLE
+       #self.class_info.AvailableSeats = self.driver.find_element_by_id( something here ).text
+       #self.class_info.BuildingName = self.driver.find_element_by_id( something here ).text
 
 
     def iterate_pages(self):
@@ -120,6 +162,7 @@ class ClassSearch():
        self.get_classes_on_page()
        for x in range(0, len(self.classes_list)):
            self.click_class(x)
+           self.get_class_info()
            self.close_class()
 
        while self.get_next_page():
@@ -136,6 +179,7 @@ class ClassSearch():
            self.get_classes_on_page()           
            for x in range(0, len(self.classes_list)):
                self.click_class(x)
+               self.get_class_info()
                self.close_class()
 
            print "working"
@@ -251,31 +295,6 @@ class ClassSearch():
         except:
           continue
 
-
-
-    def iterate_subject_options(self):
-        for subject in self.subjects:  
-            #time.sleep(2)  ###IMPROVABLE
-            self.wait.until(EC.presence_of_element_located((By.NAME, "drp_subjectArea"))) 
-            subject_element = Select(self.driver.find_element_by_name("drp_subjectArea"))
-            subject_element.select_by_value(subject)
-            #time.sleep(2)  ###IMPROVABLE
-            self.click_search()
-            time.sleep(3)  ###IMPROVABLE
-            #self.wait.until(EC.presence_of_element_located((By.ID, "pnel_Classes")))
-
-            self.get_info(subject)
-            print('\n')
-            self.get_next_page()
-            while self.num_pages != 0:
-              page_link = "javascript:__doPostBack('grid_students','Page$%s')" %self.num_pages
-              self.driver.find_element_by_xpath('//a[@href="'+page_link+'"]').click()
-              time.sleep(2)  ###IMPROVABLE
-              #self.wait.until(EC.presence_of_element_located((By.ID, "pnel_Classes")))
-              self.get_next_page()
-              
-              self.get_info(subject)
-              print('\n')
 
 
 def arguments_reader(retriever):
