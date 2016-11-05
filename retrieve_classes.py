@@ -19,6 +19,22 @@ import sys
 
 firebase_url = 'https://cs180-bf6af.firebaseio.com/'
 
+
+def find_between( s, first, last ):
+    try:
+        start = s.index( first ) + len( first )
+        end = s.index( last, start )
+        return s[start:end]
+    except ValueError:
+        return ""
+
+
+def quarter_translate(quarter):
+    term = quarter[0]
+    year = quarter[len(quarter) - 2] + quarter[len(quarter) - 1]
+    return year + term
+
+
 class course():
 
     def __init__(self):
@@ -30,8 +46,8 @@ class course():
         self.CourseNum = ""
         self.CourseTitle = ""
         self.Days = ""
-        self.FinalExameDate = ""
-        self.FinalExameTime = ""
+        self.FinalExamDate = ""
+        self.FinalExamTime = ""
         self.Instructor = ""
         self.Lec_Dis = ""
         self.MaxEnrollment = ""
@@ -44,6 +60,53 @@ class course():
         self.Units = ""
         self.WaitListMax = ""
 
+
+    def print_info(self):
+        print "Available Seats: " + (self.AvailableSeats)
+        print "Building Name: " + (self.BuildingName)
+        print "Call Number: " + (self.CallNo)
+        print "Catalog Description: " + (self.CatalogDescription)
+        print "Corequisites: " + (self.Co_requisites)
+        print "Course Number: " + (self.CourseNum)
+        print "Course Title: " + (self.CourseTitle)
+        print "Days: " + (self.Days)
+        print "Final Exam Date: " + (self.FinalExamDate)
+        print "Final Exam Time: " + (self.FinalExamTime)
+        print "Instructor: " + (self.Instructor)
+        print "Lec_Dis: " + (self.Lec_Dis)
+        print "Max Enrollment: " + (self.MaxEnrollment)
+        print "Number on Wait List: " + (self.NumberonWaitList)
+        print "Prerequisites: " + (self.Prerequisites)
+        print "Restrictions: " + (self.Restrictions)
+        print "Room Abrv: " + (self.RoomAbrv)
+        print "Subject: " + (self.Subject)
+        print "Time: " + (self.Time)
+        print "Units: " + (self.Units)
+        print "Wait List Max: " + (self.WaitListMax)
+
+
+    def clear_info(self):
+        self.AvailableSeats = "" 
+        self.BuildingName = ""
+        self.CallNo = ""
+        self.CatalogDescription = ""
+        self.Co_requisites = ""
+        self.CourseNum = ""
+        self.CourseTitle = ""
+        self.Days = ""
+        self.FinalExamDate = ""
+        self.FinalExamTime = ""
+        self.Instructor = ""
+        self.Lec_Dis = ""
+        self.MaxEnrollment = ""
+        self.NumberonWaitList = ""
+        self.Prerequisites = ""
+        self.Restrictions = ""
+        self.RoomAbrv = ""
+        self.Subject = ""
+        self.Time = ""
+        self.Units = ""
+        self.WaitListMax = ""
 
 class ClassSearch():
 
@@ -76,8 +139,10 @@ class ClassSearch():
       
     def term_select(self):
         self.driver.find_element_by_id("s2id_txt_term").click()
-        self.wait.until(EC.presence_of_element_located((By.ID, "201710")))
-        self.driver.find_element_by_id("201710").click()
+        self.wait.until(EC.presence_of_element_located((By.ID, "select2-result-label-2")))
+        print self.driver.find_element_by_id("select2-result-label-2").text
+        self.quarter = quarter_translate(self.driver.find_element_by_id("select2-result-label-2").text)
+        self.driver.find_element_by_id("select2-result-label-2").click()
         self.driver.find_element_by_id("term-go").click()
 
 
@@ -139,10 +204,41 @@ class ClassSearch():
 
 
     def get_class_info(self):
-       print "GET CLASS INFO FROM POPUP HERE"
-       ###EXAMPLE
-       #self.class_info.AvailableSeats = self.driver.find_element_by_id( something here ).text
-       #self.class_info.BuildingName = self.driver.find_element_by_id( something here ).text
+       self.class_info.clear_info()
+       class_details = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
+       #CALL NUMBER
+       self.class_info.CallNo = find_between(class_details, "CRN:", "Campus:") 
+       #SCHEDULE TYPE
+       self.class_info.LEC_DIS = find_between(class_details, "Schedule Type:", "Instructional")
+       #SUBJECT
+       self.class_info.Subject = find_between(class_details, "Subject:", "Course Number:")
+       #COURSE NUM
+       self.class_info.CourseNum = find_between(class_details, "Course Number:", "Title:")
+       #COURSE TITLE
+       self.class_info.CourseTitle = find_between(class_details, "Title:", "Units:")
+       #UNITS
+       self.class_info.Units = find_between(class_details, "Units:", "Grade Mode:")
+       #CATALOG DESCRIPTION
+       self.driver.find_element_by_id("courseDescription").click()
+       time.sleep(.5)
+       self.class_info.CatalogDescription = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
+       self.driver.find_element_by_id("facultyMeetingTimes").click()
+       class_details_2 = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
+       self.driver.find_element_by_id("enrollmentInfo").click()
+       class_details_3 = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
+       #PREREQUISITES
+       self.driver.find_element_by_id("preReqs").click()
+       time.sleep(.5)
+       self.class_info.Prerequisites = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
+       #COREQUISITES
+       self.driver.find_element_by_id("coReqs").click()
+       time.sleep(.5)
+       self.class_info.Co_requisites = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
+       #RESTRICTIONS
+       self.driver.find_element_by_id("restrictions").click()
+       time.sleep(.5)
+       self.class_info.Restrictions = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
+       self.class_info.print_info()
 
 
     def iterate_pages(self):
