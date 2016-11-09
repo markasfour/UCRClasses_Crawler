@@ -20,6 +20,13 @@ import json
 import sys
 
 firebase_url = 'https://cs180-bf6af.firebaseio.com/'
+table = 1
+def tableInc():
+    global table
+    table += 1
+def tableClear():
+    global table
+    table = 1
 
 
 def find_between(s, first, last):
@@ -38,7 +45,6 @@ def quarter_translate(quarter):
 
 
 class course:
-
     def __init__(self):
         self.AvailableSeats = ''
         self.BuildingName = ''
@@ -66,8 +72,7 @@ class course:
         print 'Available Seats: ' + self.AvailableSeats
         print 'Building Name: ' + self.BuildingName
         print 'Call Number: ' + self.CallNo
-        print 'Catalog Description: ' \
-                + self.CatalogDescription.strip('\n')
+        print 'Catalog Description: ' + self.CatalogDescription.strip('\n')
         print 'Corequisites: ' + self.Co_requisites
         print 'Course Number: ' + self.CourseNum
         print 'Course Title: ' + self.CourseTitle
@@ -141,8 +146,7 @@ class ClassSearch:
                                         'select2-result-label-2')))
         print self.driver.find_element_by_id('select2-result-label-2'
                         ).text
-        self.quarter = \
-                quarter_translate(self.driver.find_element_by_id('select2-result-label-2'
+        self.quarter = quarter_translate(self.driver.find_element_by_id('select2-result-label-2'
                                                     ).text)
         self.driver.find_element_by_id('select2-result-label-2').click()
         self.driver.find_element_by_id('term-go').click()
@@ -155,11 +159,8 @@ class ClassSearch:
     def increase_classes_per_page(self):
         self.wait.until(EC.presence_of_element_located((By.CLASS_NAME,
                                         'page-size-select')))
-        total_pages = \
-                self.driver.find_element_by_class_name('total-pages').text
-        page_size_element = \
-                Select(self.driver.find_element_by_class_name('page-size-select'
-                             ))
+        total_pages = self.driver.find_element_by_class_name('total-pages').text
+        page_size_element = Select(self.driver.find_element_by_class_name('page-size-select'))
         page_size_element.select_by_value('50')
         while 1:
             self.wait.until(EC.presence_of_element_located((By.CLASS_NAME,
@@ -167,9 +168,7 @@ class ClassSearch:
             try:
                 if self.driver.find_element_by_class_name('total-pages'
                                 ).text != total_pages:
-                    self.total_pages = \
-                            int(self.driver.find_element_by_class_name('total-pages'
-                                    ).text)
+                    self.total_pages = int(self.driver.find_element_by_class_name('total-pages').text)
                     break
             except:
                 pass
@@ -217,214 +216,216 @@ class ClassSearch:
         try:
             class_details = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
         except:
+            class_details = "n/a"
             pass
-#
-#        #Available Seats
-#        try:        
-#            self.driver.find_element_by_id('enrollmentInfo').click()
-#            time.sleep(.5)
-#            self.class_info.AvailableSeats = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[6]').text
-#        except:
-#            pass
-#
-#        #Building Name
-#        try:
-#            self.driver.find_element_by_id('facultyMeetingTimes').click()
-#            time.sleep(.5)
-#            if(self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[2]').text == ""):
-#                pass
-#            else:
-#                self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[2]').text
-#        except:
-#            pass
-#
-#        #CALL NUMBER
-#        try:
-#            self.class_info.CallNo = find_between(class_details, 'CRN:', 'Campus:').strip()
-#        except:
-#            pass
-#
-#        #DAYS
-#        try:
-#            self.driver.find_element_by_id('facultyMeetingTimes').click()
-#            print "in"
-#            time.sleep(.5)
-#            
-#            //*[@id="table1"]/tbody/tr[2]/td[8]
-#            
-#            sun = self.driver.find_element_by_xpath('//*[@id="201710.30363div"]/ul/li[1]').get_attribute('aria-checked')
-#            mon = self.driver.find_element_by_xpath('//*[@id="201710.30363div"]/ul/li[2]').get_attribute('aria-checked')
-#            tue = self.driver.find_element_by_xpath('//*[@id="201710.30363div"]/ul/li[3]').get_attribute('aria-checked')
-#            wed = self.driver.find_element_by_xpath('//*[@id="201710.30363div"]/ul/li[4]').get_attribute('aria-checked')
-#            thur = self.driver.find_element_by_xpath('//*[@id="201710.30363div"]/ul/li[5]').get_attribute('aria-checked')
-#            fri = self.driver.find_element_by_xpath('//*[@id="201710.30363div"]/ul/li[6]').get_attribute('aria-checked')
-#            sat = self.driver.find_element_by_xpath('//*[@id="201710.30363div"]/ul/li[7]').get_attribute('aria-checked')
-#            temp = ""
-#            if(sun == "true"):
-#                temp += "Sunday\n"
-#            if(mon == "true"):
-#                temp += "Monday\n"
-#            if(tue == "true"):
-#                temp += "Tuesday\n"
-#            if(wed == "true"):
-#                temp += "Wednesday\n"
-#            if(thur == "true"):
-#                temp += "Thursday\n"
-#            if(fri == "true"):
-#                temp += "Friday\n"
-#            if(sat == "true"):
-#                temp += "Saturday\n"
-#            self.class_info.Days = temp
-#            print self.class_info.Days        
-#        
-#        except:
-#            print "pass"
-#            pass
-#        
+
+        #Available Seats
+        try:
+            self.driver.find_element_by_id('enrollmentInfo').click()
+            time.sleep(.5)
+            self.class_info.AvailableSeats = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[6]').text
+        except:
+            self.class_info.AvailableSeats = "n/a"
+            pass
+
+        #Building Name
+        try:
+            self.driver.find_element_by_id('facultyMeetingTimes').click()
+            time.sleep(.5)
+            if(self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[2]').text == ""):
+                pass
+            else:
+                self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[2]').text
+        except:
+            self.class_info.BuildingName = "n/a"
+            pass
+
+        #CALL NUMBER
+        try:
+            self.class_info.CallNo = find_between(class_details, 'CRN:', 'Campus:').strip()
+        except:
+            self.class_info.CallNo = "n/a"
+            pass
+
+        #DAYS
+        try:
+            self.driver.find_element_by_id('facultyMeetingTimes').click()
+            time.sleep(.5)
+            try:
+                self.driver.find_element_by_xpath('//*[@id="table1"]/tbody/tr[' + str(table) + ']/td[8]/div/div/ul/')
+            except:
+                sun = self.driver.find_element_by_xpath('//*[@id="table1"]/tbody/tr[' + str(table) + ']/td[8]/div/div/ul/li[1]').get_attribute('aria-checked')
+                mon = self.driver.find_element_by_xpath('//*[@id="table1"]/tbody/tr[' + str(table) + ']/td[8]/div/div/ul/li[2]').get_attribute('aria-checked')
+                tue = self.driver.find_element_by_xpath('//*[@id="table1"]/tbody/tr[' + str(table) + ']/td[8]/div/div/ul/li[3]').get_attribute('aria-checked')
+                wed = self.driver.find_element_by_xpath('//*[@id="table1"]/tbody/tr[' + str(table) + ']/td[8]/div/div/ul/li[4]').get_attribute('aria-checked')
+                thur = self.driver.find_element_by_xpath('//*[@id="table1"]/tbody/tr[' + str(table) + ']/td[8]/div/div/ul/li[5]').get_attribute('aria-checked')
+                fri = self.driver.find_element_by_xpath('//*[@id="table1"]/tbody/tr[' + str(table) + ']/td[8]/div/div/ul/li[6]').get_attribute('aria-checked')
+                sat = self.driver.find_element_by_xpath('//*[@id="table1"]/tbody/tr[' + str(table) + ']/td[8]/div/div/ul/li[7]').get_attribute('aria-checked')
+                tableInc()
+
+                temp = ""
+                if(sun == "true"):
+                    temp += "Sunday\n"
+                if(mon == "true"):
+                    temp += "Monday\n"
+                if(tue == "true"):
+                    temp += "Tuesday\n"
+                if(wed == "true"):
+                    temp += "Wednesday\n"
+                if(thur == "true"):
+                    temp += "Thursday\n"
+                if(fri == "true"):
+                    temp += "Friday\n"
+                if(sat == "true"):
+                    temp += "Saturday\n"
+                self.class_info.Days = temp
+
+        except:
+            self.class_info.Days = "n/a"
+            tableInc()
+            pass
+
         #instructor name
-#        try:
-#            self.driver.find_element_by_id('facultyMeetingTimes').click()
-#            time.sleep(.5)
-#            try: 
-#                instructor1 = self.class_info.Instructor = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span/span[1]/a').text
-#            except:
-#                instructor1 = ""
-#                pass
-#            try:
-#                instructor2 = self.class_info.Instructor = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span[2]/span/a').text
-#            except:
-#                instructor2 = ""
-#                pass
-#           
-#            allinstructors = instructor1 + " " + instructor2
-#            if (allinstructors == " "):
-#                allinstructors = "Instructors are not available yet. "
-#
-#            self.class_info.Instructor = allinstructors
-#            print self.class_info.Instructor
-#                        
-#        except:
-#            pass
-##            
-#        #Max Enrollment
-#        try:
-#            self.driver.find_element_by_id('enrollmentInfo').click()
-#            time.sleep(.5)
-#            self.class_info.MaxEnrollment = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[4]').text
-#        except:
-#            pass
-#            
-#        #Num on WaitList
-#        try:
-#            self.driver.find_element_by_id('enrollmentInfo').click()
-#            time.sleep(.5)
-#            self.class_info.NumberonWaitList = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[10]').text
-#            print self.class_info.NumberonWaitList
-#        except:
-#            pass
+        try:
+            self.driver.find_element_by_id('facultyMeetingTimes').click()
+            time.sleep(.5)
+            try:
+                instructor1 = self.class_info.Instructor = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span/span[1]/a').text
+            except:
+                instructor1 = ""
+                pass
+            try:
+                instructor2 = self.class_info.Instructor = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span[2]/span/a').text
+            except:
+                instructor2 = ""
+                pass
+
+            allinstructors = instructor1 + " " + instructor2
+            if (allinstructors == " "):
+                allinstructors = "Instructors are not available yet. "
+
+            self.class_info.Instructor = allinstructors
+
+        except:
+            self.class_info.Instructor = "n/a"
+            pass
+
+        #Max Enrollment
+        try:
+            self.driver.find_element_by_id('enrollmentInfo').click()
+            time.sleep(.5)
+            self.class_info.MaxEnrollment = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[4]').text
+        except:
+            self.class_info.MaxEnrollment = "n/a"
+            pass
+
+        #Num on WaitList
+        try:
+            self.driver.find_element_by_id('enrollmentInfo').click()
+            time.sleep(.5)
+            self.class_info.NumberonWaitList = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[10]').text
+        except:
+            self.class_info.NumberonWaitList = "n/a"
+            pass
 
         #time
-#        try:
-#            self.driver.find_element_by_id('facultyMeetingTimes').click()
-#            time.sleep(.5)
-#            self.class_info.Time = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[1]').text
-#            print self.class_info.Time
-#        except:
-#            self.class_info.Time = "Not available."
-#            print self.class_info.Time
-#            pass
-#
+        try:
+            self.driver.find_element_by_id('facultyMeetingTimes').click()
+            time.sleep(.5)
+            self.class_info.Time = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[1]').text
+        except:
+            self.class_info.Time = "n/a"
+            pass
+
         #wait list max
-#        try:
-#            self.driver.find_element_by_id('enrollmentInfo').click()
-#            time.sleep(.5)
-#            self.class_info.WaitListMax = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[8]').text
-#            print self.class_info.WaitListMax
-#        except:
-#            pass
-#
-#        #SCHEDULE TYPE
-#        try:
-#            self.class_info.LEC_DIS = find_between(class_details, 'Schedule Type:', 'Instructional')
-#            print self.class_info.LEC_DIS
-#        except:
-#            pass
-#            
+        try:
+            self.driver.find_element_by_id('enrollmentInfo').click()
+            time.sleep(.5)
+            self.class_info.WaitListMax = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[8]').text
+        except:
+            self.class_info.WaitListMax = "n/a"
+            pass
+
+        #SCHEDULE TYPE
+        try:
+            self.class_info.Lec_Dis = find_between(class_details, 'Schedule Type:', 'Instructional')
+        except:
+            self.class_info.Lec_Dis = "n/a"
+            pass
+
         #SUBJECT
-#        try:
-#            self.class_info.Subject = find_between(class_details, 'Subject:' , 'Course Number:')
-#            print self.class_info.Subject
-#        except:
-#            pass
-#
+        try:
+            self.class_info.Subject = find_between(class_details, 'Subject:' , 'Course Number:')
+        except:
+            self.class_info.Subject = "n/a"
+            pass
+
         #COURSE NUM
-#        try:
-#            self.class_info.CourseNum = find_between(class_details, 'Course Number:', 'Title:')
-#            print self.class_info.CourseNum
-#        except:
-#            pass
-#
-#        #COURSE TITLE
-#        try:
-#            self.class_info.CourseTitle = find_between(class_details, 'Title:', 'Units:')
-#        except:
-#            pass
-#
-#        #UNITS
-#        try:
-#            self.class_info.Units = find_between(class_details, 'Units:',
-#                        'Grade Mode:')
-#            print self.class_info.Units
-#        except:
-#            pass
-#            
+        try:
+            self.class_info.CourseNum = find_between(class_details, 'Course Number:', 'Title:')
+        except:
+            self.class_info.CourseNum = "n/a"
+            pass
+
+        #COURSE TITLE
+        try:
+            self.class_info.CourseTitle = find_between(class_details, 'Title:', 'Units:')
+        except:
+            self.class_info.CourseTitle = "n/a"
+            pass
+
+        #UNITS
+        try:
+            self.class_info.Units = find_between(class_details, 'Units:',
+                        'Grade Mode:')
+        except:
+            self.class_info.Units = "n/a"
+            pass
+
         #CATALOG DESCRIPTION
-#        try:
-#            self.driver.find_element_by_id('courseDescription').click()
-#            time.sleep(.5)
-#            self.class_info.CatalogDescription = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
-#            self.driver.find_element_by_id('facultyMeetingTimes').click()
-#            class_details_2 = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
-#            self.driver.find_element_by_id('enrollmentInfo').click()
-#            class_details_3 = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
-#            print self.class_info.CatalogDescription
-#            print "\n"
-#            print class_details_2
-#            print "\n"
-#            print class_details_3
-#            print "\n"
-#        except:
-#            pass
-#
-#        #PREREQUISITES
-#        try:
-#            self.driver.find_element_by_id('preReqs').click()
-#            time.sleep(.5)
-#            self.class_info.Prerequisites = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
-#            print self.class_info.Prerequisites
-#        except:
-#            pass
-#
-#        #COREQUISITES click link below?
-#        try:
-#            self.driver.find_element_by_id('coReqs').click()
-#            time.sleep(.5)
-#            self.class_info.Co_requisites = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
-#            print self.class_info.Co_requisites
-#        except:
-#            pass
-#
+        try:
+            self.driver.find_element_by_id('courseDescription').click()
+            time.sleep(.5)
+            self.class_info.CatalogDescription = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
+            self.driver.find_element_by_id('facultyMeetingTimes').click()
+
+            #not used for anything
+            class_details_2 = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
+            self.driver.find_element_by_id('enrollmentInfo').click()
+            class_details_3 = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
+        except:
+            self.class_info.CatalogDescription = "n/a"
+            pass
+
+        #PREREQUISITES
+        try:
+            self.driver.find_element_by_id('preReqs').click()
+            time.sleep(.5)
+            self.class_info.Prerequisites = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
+        except:
+            self.class_info.Prerequisites = "n/a"
+            pass
+
+        #COREQUISITES click link below?
+        try:
+            self.driver.find_element_by_id('coReqs').click()
+            time.sleep(.5)
+            self.class_info.Co_requisites = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
+        except:
+            self.class_info.Co_requisites = "n/a"
+            pass
+
         #RESTRICTIONS click link below?
         try:
             self.driver.find_element_by_id('restrictions').click()
             time.sleep(.5)
             self.class_info.Restrictions = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
-            print self.class_info.Restrictions
         except:
+            self.class_info.Restrictions = "n/a"
             pass
-            
-#            
-#        self.class_info.print_info()
+
+
+        self.class_info.print_info()
 
     def iterate_pages(self):
         counter = 1
@@ -447,6 +448,10 @@ class ClassSearch:
         for x in range(0, len(self.classes_list)):
             self.click_class(x)
             self.get_class_info()
+############################################################
+            self.get_info()
+############################################################
+
             self.close_class()
 
         while self.get_next_page():
@@ -475,171 +480,195 @@ class ClassSearch:
                 break
         print 'Done'
 
-    def get_info(self, subject):
-        for x in range(2, 12):
-            try:
-                if x < 10:
-                    popup = \
-                            "javascript:__doPostBack('grid_students$ctl0" \
-                            + str(x) + "$lnkbtn_courseTitle','')"
-                else:
-                    popup = \
-                            "javascript:__doPostBack('grid_students$ctl" \
-                            + str(x) + "$lnkbtn_courseTitle','')"
+    def get_info(self):
+        print "posting to DB"
+        print self.quarter
+        print self.class_info.Subject
+        data = {
+                    'Subject': self.class_info.Subject,
+                    'CourseTitle': self.class_info.CourseTitle,
+                    'CourseNum': self.class_info.CourseNum,
+                    'CallNo': self.class_info.CallNo,
+                    'Instructor': self.class_info.Instructor,
+                    'Units': self.class_info.Units,
+                    'MaxEnrollment': self.class_info.MaxEnrollment,
+                    'Lec_Dis': self.class_info.Lec_Dis,
+                    'Days': self.class_info.Days,
+                    'Time': self.class_info.Time,
+                    'RoomAbrv': self.class_info.RoomAbrv,
+                    'BuildingName': self.class_info.BuildingName,
+                    'AvailableSeats': self.class_info.AvailableSeats,
+                    'WaitListMax': self.class_info.WaitListMax,
+                    'NumberonWaitList': self.class_info.NumberonWaitList,
+                    'Co-requisites': self.class_info.Co_requisites,
+                    'Prerequisites': self.class_info.Prerequisites,
+                    'Restrictions': self.class_info.Restrictions,
+                    'FinalExamDate': self.class_info.FinalExamDate,
+                    'FinalExamTime': self.class_info.FinalExamTime,
+                    'CatalogDescription': self.class_info.CatalogDescription,
+                    }
 
-                table = []
-                self.driver.find_element_by_xpath('//a[@href="' + popup
-                                + '"]').click()
+# Do not send data to DB if there is no CourseNum
 
-    # time.sleep(3)
+        result = requests.patch(firebase_url + '/' + self.quarter + '/' + self.class_info.Subject + '/' + self.class_info.CallNo + '.json', data=json.dumps(data))
+        print 'Record inserted. Result Code = ' + str(result.status_code) + ',' + result.text
 
-                self.wait.until(EC.presence_of_element_located((By.XPATH,
-                                                '//*[@id="exposeMask"][contains(@style, "display: block; opacity: 0.8")]'
-                                                )))
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_courseTitle"]/b/font'
-                                             ).text)
-                except:
-                    table.append('TEST TEST TEST')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_courseNum"]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_callNo"]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_instructor"]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_units"]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_maxEnrollment"]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[1]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[2]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[3]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[4]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[5]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_availableSeats"]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_waitlistMax"]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_onWaitList"]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_coquisites"]/font'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_prerequisties"]/font'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_restrictionsA"]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_finalExamDate"]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_finalExamDateA"]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                try:
-                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_notes"]'
-                                             ).text)
-                except:
-                    table.append('n/a')
-                self.driver.find_element_by_xpath('//*[@id="ClassInfo"]/a'
-                                ).click()
-
-    # each table will have 0 to 19 indexes
-
-                data = {
-                        'Subject': subject,
-                        'CourseTitle': table[0],
-                        'CourseNum': table[1],
-                        'CallNo': table[2],
-                        'Instructor': table[3],
-                        'Units': table[4],
-                        'MaxEnrollment': table[5],
-                        'Lec_Dis': table[6],
-                        'Days': table[7],
-                        'Time': table[8],
-                        'RoomAbrv': table[9],
-                        'BuildingName': table[10],
-                        'AvailableSeats': table[11],
-                        'WaitListMax': table[12],
-                        'NumberonWaitList': table[13],
-                        'Co-requisites': table[14],
-                        'Prerequisites': table[15],
-                        'Restrictions': table[16],
-                        'FinalExamDate': table[17],
-                        'FinalExamTime': table[18],
-                        'CatalogDescription': table[19],
-                        }
-
-    # Do not send data to DB if there is no CourseNum
-
-                if table[1] == '' or table[1] == 'n/a':
-                    continue
-
-                result = requests.patch(firebase_url + '/'
-                                + self.quarter + '/' + subject + '/' + table[2]
-                                + '.json', data=json.dumps(data))
-                print 'Record inserted. Result Code = ' \
-                        + str(result.status_code) + ',' + result.text
-            except:
-
-    # time.sleep(3)
-
-                continue
+#        for x in range(2, 12):
+#            try:
+#                if x < 10:
+#                    popup = "javascript:__doPostBack('grid_students$ctl0" + str(x) + "$lnkbtn_courseTitle','')"
+#                else:
+#                    popup = "javascript:__doPostBack('grid_students$ctl" + str(x) + "$lnkbtn_courseTitle','')"
+#
+#                table = []
+#                self.driver.find_element_by_xpath('//a[@href="' + popup
+#                                + '"]').click()
+#
+#    # time.sleep(3)
+#
+#                self.wait.until(EC.presence_of_element_located((By.XPATH,
+#                                                '//*[@id="exposeMask"][contains(@style, "display: block; opacity: 0.8")]'
+#                                                )))
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_courseTitle"]/b/font'
+#                                             ).text)
+#                except:
+#                    table.append('TEST TEST TEST')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_courseNum"]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_callNo"]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_instructor"]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_units"]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_maxEnrollment"]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[1]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[2]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[3]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[4]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_classActivities"]/table/tbody/tr/td[5]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_availableSeats"]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_waitlistMax"]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_onWaitList"]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_coquisites"]/font'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_prerequisties"]/font'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_restrictionsA"]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_finalExamDate"]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_finalExamDateA"]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                try:
+#                    table.append(self.driver.find_element_by_xpath('//*[@id="lbl_notes"]'
+#                                             ).text)
+#                except:
+#                    table.append('n/a')
+#                self.driver.find_element_by_xpath('//*[@id="ClassInfo"]/a'
+#                                ).click()
+#
+#    # each table will have 0 to 19 indexes
+#
+#                data = {
+#                        'Subject': subject,
+#                        'CourseTitle': table[0],
+#                        'CourseNum': table[1],
+#                        'CallNo': table[2],
+#                        'Instructor': table[3],
+#                        'Units': table[4],
+#                        'MaxEnrollment': table[5],
+#                        'Lec_Dis': table[6],
+#                        'Days': table[7],
+#                        'Time': table[8],
+#                        'RoomAbrv': table[9],
+#                        'BuildingName': table[10],
+#                        'AvailableSeats': table[11],
+#                        'WaitListMax': table[12],
+#                        'NumberonWaitList': table[13],
+#                        'Co-requisites': table[14],
+#                        'Prerequisites': table[15],
+#                        'Restrictions': table[16],
+#                        'FinalExamDate': table[17],
+#                        'FinalExamTime': table[18],
+#                        'CatalogDescription': table[19],
+#                        }
+#
+#    # Do not send data to DB if there is no CourseNum
+#
+#                if table[1] == '' or table[1] == 'n/a':
+#                    continue
+#
+#                result = requests.patch(firebase_url + '/'
+#                                + self.quarter + '/' + subject + '/' + table[2]
+#                                + '.json', data=json.dumps(data))
+#                print 'Record inserted. Result Code = ' + str(result.status_code) + ',' + result.text
+#            except:
+#                continue
 
 
 def arguments_reader(retriever):
@@ -663,9 +692,7 @@ def arguments_reader(retriever):
             # retriever.set_end_page(sys.argv[2])
 
 if __name__ == '__main__':
-    firebase = \
-            firebase.FirebaseApplication('https://cs180-bf6af.firebaseio.com/'
-                    , authentication=None)
+    firebase = firebase.FirebaseApplication('https://cs180-bf6af.firebaseio.com/', authentication=None)
     retriever = ClassSearch()
     arguments_reader(retriever)
     retriever.start_connection()
