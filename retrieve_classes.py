@@ -212,10 +212,51 @@ class ClassSearch():
        self.driver.find_element_by_id("enrollmentInfo").click()
        time.sleep(.5)
        self.class_info.AvailableSeats = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[6]').text
-    
+       
+       #Building Name
+       self.driver.find_element_by_id("facultyMeetingTimes").click()
+       time.sleep(.5)
+       self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[2]').text
+ 
+
        #CALL NUMBER
        self.class_info.CallNo = find_between(class_details, "CRN:", "Campus:") 
-    
+       
+       #DAYS
+       self.driver.find_element_by_id("facultyMeetingTimes").click()
+       time.sleep(.5)
+       self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="201710.40139div"]/div').text
+
+       #final exam date
+       #requires bullshit other website
+
+       #instructor name
+       self.driver.find_element_by_id("facultyMeetingTimes").click()
+       time.sleep(.5)
+       self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span/span[1]/a').text
+
+       #Max Enrollment
+       self.driver.find_element_by_id("enrollmentInfo").click()
+       time.sleep(.5)
+       self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[4]').text
+       
+       #Num on WaitList
+       self.driver.find_element_by_id("enrollmentInfo").click()
+       time.sleep(.5)
+       self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[10]').text
+       
+       #time
+       self.driver.find_element_by_id("facultyMeetingTimes").click()
+       time.sleep(.5)
+       self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[1]').text
+       
+       #wait list max
+       self.driver.find_element_by_id("enrollmentInfo").click()
+       time.sleep(.5)
+       self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[8]').text
+       
+
+       
        #SCHEDULE TYPE
        self.class_info.LEC_DIS = find_between(class_details, "Schedule Type:", "Instructional")
     
