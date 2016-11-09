@@ -282,37 +282,30 @@ class ClassSearch:
 #            pass
 #        
         #instructor name
-        try:
-            self.driver.find_element_by_id('facultyMeetingTimes').click()
-            time.sleep(.5)
-            try: 
-                instructor1 = self.class_info.Instructor = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span/span[1]/a').text
-            except:
-                instructor1 = ""
-                pass
-            try:
-                instructor2 = self.class_info.Instructor = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span[2]/span/a').text
-            except:
-                instructor2 = ""
-                pass
-            try:
-                noinstructor = self.class_info.Instructor = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span/text()').text
-                noinstructor = "Instructor not yet available"
-            except:
-                noinstructor = ""
-                pass
-            
-            allinstructors = instructor1 + " " + instructor2 + " " + noinstructor
-            self.class_info.Instructor = allinstructors
-            print self.class_info.Instructor
-            
-            #//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span[1]/span[1]/a
-            #//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span[2]/span/a
-            #//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span/text()
-            
-        except:
-            pass
-#            
+#        try:
+#            self.driver.find_element_by_id('facultyMeetingTimes').click()
+#            time.sleep(.5)
+#            try: 
+#                instructor1 = self.class_info.Instructor = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span/span[1]/a').text
+#            except:
+#                instructor1 = ""
+#                pass
+#            try:
+#                instructor2 = self.class_info.Instructor = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span[2]/span/a').text
+#            except:
+#                instructor2 = ""
+#                pass
+#           
+#            allinstructors = instructor1 + " " + instructor2
+#            if (allinstructors == " "):
+#                allinstructors = "Instructors are not available yet. "
+#
+#            self.class_info.Instructor = allinstructors
+#            print self.class_info.Instructor
+#                        
+#        except:
+#            pass
+##            
 #        #Max Enrollment
 #        try:
 #            self.driver.find_element_by_id('enrollmentInfo').click()
@@ -326,40 +319,48 @@ class ClassSearch:
 #            self.driver.find_element_by_id('enrollmentInfo').click()
 #            time.sleep(.5)
 #            self.class_info.NumberonWaitList = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[10]').text
+#            print self.class_info.NumberonWaitList
 #        except:
 #            pass
-#
-#        #time
+
+        #time
 #        try:
 #            self.driver.find_element_by_id('facultyMeetingTimes').click()
 #            time.sleep(.5)
 #            self.class_info.Time = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[1]').text
+#            print self.class_info.Time
 #        except:
+#            self.class_info.Time = "Not available."
+#            print self.class_info.Time
 #            pass
 #
-#        #wait list max
+        #wait list max
 #        try:
 #            self.driver.find_element_by_id('enrollmentInfo').click()
 #            time.sleep(.5)
 #            self.class_info.WaitListMax = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[8]').text
+#            print self.class_info.WaitListMax
 #        except:
 #            pass
 #
 #        #SCHEDULE TYPE
 #        try:
 #            self.class_info.LEC_DIS = find_between(class_details, 'Schedule Type:', 'Instructional')
+#            print self.class_info.LEC_DIS
 #        except:
 #            pass
 #            
-#        #SUBJECT
+        #SUBJECT
 #        try:
 #            self.class_info.Subject = find_between(class_details, 'Subject:' , 'Course Number:')
+#            print self.class_info.Subject
 #        except:
 #            pass
 #
-#        #COURSE NUM
+        #COURSE NUM
 #        try:
 #            self.class_info.CourseNum = find_between(class_details, 'Course Number:', 'Title:')
+#            print self.class_info.CourseNum
 #        except:
 #            pass
 #
@@ -373,10 +374,11 @@ class ClassSearch:
 #        try:
 #            self.class_info.Units = find_between(class_details, 'Units:',
 #                        'Grade Mode:')
+#            print self.class_info.Units
 #        except:
 #            pass
 #            
-#        #CATALOG DESCRIPTION
+        #CATALOG DESCRIPTION
 #        try:
 #            self.driver.find_element_by_id('courseDescription').click()
 #            time.sleep(.5)
@@ -385,6 +387,12 @@ class ClassSearch:
 #            class_details_2 = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
 #            self.driver.find_element_by_id('enrollmentInfo').click()
 #            class_details_3 = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
+#            print self.class_info.CatalogDescription
+#            print "\n"
+#            print class_details_2
+#            print "\n"
+#            print class_details_3
+#            print "\n"
 #        except:
 #            pass
 #
@@ -393,25 +401,28 @@ class ClassSearch:
 #            self.driver.find_element_by_id('preReqs').click()
 #            time.sleep(.5)
 #            self.class_info.Prerequisites = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
+#            print self.class_info.Prerequisites
 #        except:
 #            pass
 #
-#        #COREQUISITES
+#        #COREQUISITES click link below?
 #        try:
 #            self.driver.find_element_by_id('coReqs').click()
 #            time.sleep(.5)
 #            self.class_info.Co_requisites = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
+#            print self.class_info.Co_requisites
 #        except:
 #            pass
 #
-#        #RESTRICTIONS
-#        try:
-#            self.driver.find_element_by_id('restrictions').click()
-#            time.sleep(.5)
-#            self.class_info.Restrictions = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
-#        except:
-#            pass
-#            
+        #RESTRICTIONS click link below?
+        try:
+            self.driver.find_element_by_id('restrictions').click()
+            time.sleep(.5)
+            self.class_info.Restrictions = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
+            print self.class_info.Restrictions
+        except:
+            pass
+            
 #            
 #        self.class_info.print_info()
 
