@@ -482,8 +482,6 @@ class ClassSearch:
 
     def get_info(self):
         print "posting to DB"
-        print self.quarter
-        print self.class_info.Subject
         data = {
                     'Subject': self.class_info.Subject,
                     'CourseTitle': self.class_info.CourseTitle,
@@ -509,8 +507,9 @@ class ClassSearch:
                     }
 
 # Do not send data to DB if there is no CourseNum
-
-        result = requests.patch(firebase_url + '/' + self.quarter + '/' + self.class_info.Subject + '/' + self.class_info.CallNo + '.json', data=json.dumps(data))
+        temp_Subject = self.class_info.Subject.strip()
+        temp_callNo = self.class_info.CallNo.strip()
+        result = requests.patch(firebase_url + '/' + self.quarter + '/' + temp_Subject + '/' + temp_callNo + '.json', data=json.dumps(data))
         print 'Record inserted. Result Code = ' + str(result.status_code) + ',' + result.text
 
 #        for x in range(2, 12):
