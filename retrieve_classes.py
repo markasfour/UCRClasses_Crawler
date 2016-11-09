@@ -86,26 +86,26 @@ class course():
 
 
     def clear_info(self):
-        self.AvailableSeats = ""         #done
+        self.AvailableSeats = ""           #done
         self.BuildingName = ""
-        self.CallNo = ""
+        self.CallNo = ""                   #done
         self.CatalogDescription = ""
-        self.Co_requisites = ""
+        self.Co_requisites = ""            #done
         self.CourseNum = ""
-        self.CourseTitle = ""
+        self.CourseTitle = ""              #done
         self.Days = ""
         self.FinalExamDate = ""
         self.FinalExamTime = ""
         self.Instructor = ""
-        self.Lec_Dis = ""
+        self.Lec_Dis = ""                  #done
         self.MaxEnrollment = ""
         self.NumberonWaitList = ""
-        self.Prerequisites = ""
-        self.Restrictions = ""
+        self.Prerequisites = ""            #done
+        self.Restrictions = ""             #done
         self.RoomAbrv = ""
-        self.Subject = ""
-        self.Time = ""
-        self.Units = ""
+        self.Subject = ""                  #done
+        self.Time = ""                     
+        self.Units = ""                    #done
         self.WaitListMax = ""
 
 class ClassSearch():
@@ -205,62 +205,57 @@ class ClassSearch():
     
         
     def get_class_info(self):
-       temp = counter
        self.class_info.clear_info()
-       
+       class_details = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
+    
        #Available Seats
        self.driver.find_element_by_id("enrollmentInfo").click()
        time.sleep(.5)
        self.class_info.AvailableSeats = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[6]').text
        print self.class_info.AvailableSeats
     
-#       class_details = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
-#    
-#       #CALL NUMBER
-#       self.class_info.CallNo = find_between(class_details, "CRN:", "Campus:") 
-#    
-#       #CALL NUMBER
-#       self.class_info.CallNo = find_between(class_details, "CRN:", "Campus:") 
-#    
-#       #SCHEDULE TYPE
-#       self.class_info.LEC_DIS = find_between(class_details, "Schedule Type:", "Instructional")
-#    
-#       #SUBJECT
-#       self.class_info.Subject = find_between(class_details, "Subject:", "Course Number:")
-#    
-#       #COURSE NUM
-#       self.class_info.CourseNum = find_between(class_details, "Course Number:", "Title:")
-#        
-#       #COURSE TITLE
-#       self.class_info.CourseTitle = find_between(class_details, "Title:", "Units:")
-#    
-#       #UNITS
-#       self.class_info.Units = find_between(class_details, "Units:", "Grade Mode:")
-#    
-#       #CATALOG DESCRIPTION
-#       self.driver.find_element_by_id("courseDescription").click()
-#       time.sleep(.5)
-#       self.class_info.CatalogDescription = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
-#       self.driver.find_element_by_id("facultyMeetingTimes").click()
-#       class_details_2 = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
-#       self.driver.find_element_by_id("enrollmentInfo").click()
-#       class_details_3 = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
-#    
-#       #PREREQUISITES
-#       self.driver.find_element_by_id("preReqs").click()
-#       time.sleep(.5)
-#       self.class_info.Prerequisites = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
-#    
-#       #COREQUISITES
-#       self.driver.find_element_by_id("coReqs").click()
-#       time.sleep(.5)
-#       self.class_info.Co_requisites = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
-#    
-#       #RESTRICTIONS
-#       self.driver.find_element_by_id("restrictions").click()
-#       time.sleep(.5)
-#       self.class_info.Restrictions = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
-#       self.class_info.print_info()
+       #CALL NUMBER
+       self.class_info.CallNo = find_between(class_details, "CRN:", "Campus:") 
+    
+       #SCHEDULE TYPE
+       self.class_info.LEC_DIS = find_between(class_details, "Schedule Type:", "Instructional")
+    
+       #SUBJECT
+       self.class_info.Subject = find_between(class_details, "Subject:", "Course Number:")
+    
+       #COURSE NUM
+       self.class_info.CourseNum = find_between(class_details, "Course Number:", "Title:")
+        
+       #COURSE TITLE
+       self.class_info.CourseTitle = find_between(class_details, "Title:", "Units:")
+    
+       #UNITS
+       self.class_info.Units = find_between(class_details, "Units:", "Grade Mode:")
+    
+       #CATALOG DESCRIPTION
+       self.driver.find_element_by_id("courseDescription").click()
+       time.sleep(.5)
+       self.class_info.CatalogDescription = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
+       self.driver.find_element_by_id("facultyMeetingTimes").click()
+       class_details_2 = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
+       self.driver.find_element_by_id("enrollmentInfo").click()
+       class_details_3 = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
+    
+       #PREREQUISITES
+       self.driver.find_element_by_id("preReqs").click()
+       time.sleep(.5)
+       self.class_info.Prerequisites = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
+    
+       #COREQUISITES
+       self.driver.find_element_by_id("coReqs").click()
+       time.sleep(.5)
+       self.class_info.Co_requisites = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
+    
+       #RESTRICTIONS
+       self.driver.find_element_by_id("restrictions").click()
+       time.sleep(.5)
+       self.class_info.Restrictions = self.driver.find_element_by_id("classDetailsContentDetailsDiv").text
+       self.class_info.print_info()
 
 
     def iterate_pages(self):
