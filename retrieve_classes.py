@@ -65,7 +65,7 @@ class course():
         print "Available Seats: " + (self.AvailableSeats)
         print "Building Name: " + (self.BuildingName)
         print "Call Number: " + (self.CallNo)
-        print "Catalog Description: " + (self.CatalogDescription)
+        print "Catalog Description: " + (self.CatalogDescription).strip('\n')
         print "Corequisites: " + (self.Co_requisites)
         print "Course Number: " + (self.CourseNum)
         print "Course Title: " + (self.CourseTitle)
@@ -212,7 +212,6 @@ class ClassSearch():
        self.driver.find_element_by_id("enrollmentInfo").click()
        time.sleep(.5)
        self.class_info.AvailableSeats = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[6]').text
-       print self.class_info.AvailableSeats
     
        #CALL NUMBER
        self.class_info.CallNo = find_between(class_details, "CRN:", "Campus:") 
