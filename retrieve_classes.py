@@ -246,7 +246,7 @@ class ClassSearch:
         try:
             self.driver.find_element_by_id('facultyMeetingTimes').click()
             time.sleep(.5)
-            self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="201710.40139div"]/div').text
+            self.class_info.Days = self.driver.find_element_by_xpath('//*[@id="201710.40139div"]/div').text
         except:
             pass
         
@@ -254,7 +254,7 @@ class ClassSearch:
         try:
             self.driver.find_element_by_id('facultyMeetingTimes').click()
             time.sleep(.5)
-            self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span/span[1]/a').text
+            self.class_info.Instructor = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span/span[1]/a').text
         except:
             pass
             
@@ -262,7 +262,7 @@ class ClassSearch:
         try:
             self.driver.find_element_by_id('enrollmentInfo').click()
             time.sleep(.5)
-            self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[4]').text
+            self.class_info.MaxEnrollment = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[4]').text
         except:
             pass
             
@@ -270,7 +270,7 @@ class ClassSearch:
         try:
             self.driver.find_element_by_id('enrollmentInfo').click()
             time.sleep(.5)
-            self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[10]').text
+            self.class_info.NumberonWaitList = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[10]').text
         except:
             pass
 
@@ -278,7 +278,7 @@ class ClassSearch:
         try:
             self.driver.find_element_by_id('facultyMeetingTimes').click()
             time.sleep(.5)
-            self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[1]').text
+            self.class_info.Time = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[1]').text
         except:
             pass
 
@@ -286,7 +286,7 @@ class ClassSearch:
         try:
             self.driver.find_element_by_id('enrollmentInfo').click()
             time.sleep(.5)
-            self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[8]').text
+            self.class_info.WaitListMax = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[8]').text
         except:
             pass
 
@@ -358,7 +358,7 @@ class ClassSearch:
             pass
             
             
-#        self.class_info.print_info()
+        self.class_info.print_info()
 
     def iterate_pages(self):
         counter = 1
