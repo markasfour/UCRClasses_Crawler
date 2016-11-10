@@ -115,27 +115,27 @@ class course:
         self.WaitListMax = ''
 
     def clean_data(self):
-        self.AvailableSeats = self.AvailableSeats.strip().replace('\n', ' ')
-        self.BuildingName = self.BuildingName.strip().replace('\n', ' ')
-        self.CallNo = self.CallNo.strip().replace('\n', ' ')
-        self.CatalogDescription = self.CatalogDescription.strip().replace('\n', ' ')
-        self.Co_requisites = self.Co_requisites.strip().replace('\n', ' ')
-        self.CourseNum = self.CourseNum.strip().replace('\n', ' ')
-        self.CourseTitle = self.CourseTitle.strip().replace('\n', ' ')
-        self.Days = self.Days.strip().replace('\n', ' ')
-        self.FinalExamDate = self.FinalExamDate.strip().replace('\n', ' ')
-        self.FinalExamTime = self.FinalExamTime.strip().replace('\n', ' ')
-        self.Instructor = self.Instructor.strip().replace('\n', ' ')
-        self.Lec_Dis = self.Lec_Dis.strip().replace('\n', ' ')
-        self.MaxEnrollment = self.MaxEnrollment.strip().replace('\n', ' ')
-        self.NumberonWaitList = self.NumberonWaitList.strip().replace('\n', ' ')
-        self.Prerequisites = self.Prerequisites.strip().replace('\n', ' ')
-        self.Restrictions = self.Restrictions.strip().replace('\n', ' ')
-        self.RoomAbrv = self.RoomAbrv.strip().replace('\n', ' ')
-        self.Subject = self.Subject.strip().replace('\n', ' ')
-        self.Time = self.Time.strip().replace('\n', ' ')
-        self.Units = self.Units.strip().replace('\n', ' ')
-        self.WaitListMax = self.WaitListMax.strip().replace('\n', ' ')
+        self.AvailableSeats = self.AvailableSeats.replace('\n', ' ')
+        self.BuildingName = self.BuildingName.replace('\n', ' ')
+        self.CallNo = self.CallNo.replace('\n', '')
+        self.CatalogDescription = self.CatalogDescription.replace('\n', ' ')
+        self.Co_requisites = self.Co_requisites.replace('\n', ' ')
+        self.CourseNum = self.CourseNum.replace('\n', ' ')
+        self.CourseTitle = self.CourseTitle.replace('\n', ' ')
+        self.Days = self.Days.replace('\n', ' ')
+        self.FinalExamDate = self.FinalExamDate.replace('\n', ' ')
+        self.FinalExamTime = self.FinalExamTime.replace('\n', ' ')
+        self.Instructor = self.Instructor.replace('\n', ' ')
+        self.Lec_Dis = self.Lec_Dis.replace('\n', ' ')
+        self.MaxEnrollment = self.MaxEnrollment.replace('\n', ' ')
+        self.NumberonWaitList = self.NumberonWaitList.replace('\n', ' ')
+        self.Prerequisites = self.Prerequisites.replace('\n', ' ')
+        self.Restrictions = self.Restrictions.replace('\n', ' ')
+        self.RoomAbrv = self.RoomAbrv.replace('\n', ' ')
+        self.Subject = self.Subject.replace('\n', ' ')
+        self.Time = self.Time.replace('\n', ' ')
+        self.Units = self.Units.replace('\n', ' ')
+        self.WaitListMax = self.WaitListMax.replace('\n', ' ')
 
 
 class ClassSearch:
@@ -232,6 +232,66 @@ class ClassSearch:
                                             'courseReferenceNumber')))
         except:
             pass
+######################################################################################################
+    def abreviate_subjects(self, subject):
+        try:
+            temp = ""
+            if(subject == "Academic Resource Center"):
+                temp = "ARC"
+#            elif(subject == ""):
+#                temp = "ANTH"
+#            elif(subject == ""):
+#                temp = "ARBC"
+#            elif(subject == ""):
+#                temp = "ARLC"
+#            elif(subject == ""):
+#                temp = "ART"
+#            elif(subject == ""):
+#                temp = "AST"
+#            elif(subject == ""):
+#                temp = "BCH"
+#            elif(subject == ""):
+#                temp = "BIEN"
+#            elif(subject == ""):
+#                temp = "BIOL"
+#            elif(subject == ""):
+#                temp = "BMSC"
+#            elif(subject == ""):
+#                temp = "BPSC"
+#            elif(subject == ""):
+#                temp = "BSWT"
+#            elif(subject == ""):
+#                temp = "BUS"
+#            elif(subject == ""):
+#                temp = "CBNS"
+#            elif(subject == ""):
+#                temp = "CMDB"
+#            elif(subject == ""):
+#                temp = "CRWT"
+#            elif(subject == ""):
+#                temp = "DNCE"
+#            elif(subject == ""):
+#                temp = "ECON"
+#            elif(subject == ""):
+#                temp = "EDUC"
+#            elif(subject == ""):
+#                temp = "GBST"
+#            elif(subject == ""):
+#                temp = "GER"
+#            elif(subject == ""):
+#                temp = "GRK"
+#            elif(subject == ""):
+#                temp = "HASS"
+#            elif(subject == ""):
+#                temp = "HISA"
+#            elif(subject == ""):
+#                temp = "HISE"
+
+            return temp
+        except:
+            temp = "unknown major from testing"
+            return temp
+######################################################################################################
 
     def get_class_info(self):
         self.class_info.clear_info()
@@ -246,7 +306,7 @@ class ClassSearch:
         try:
             self.driver.find_element_by_id('enrollmentInfo').click()
             time.sleep(.5)
-            self.class_info.AvailableSeats = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[6]').text
+            self.class_info.AvailableSeats = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[6]').text.replace('\n', '')
         except:
             self.class_info.AvailableSeats = "n/a"
             pass
@@ -258,14 +318,17 @@ class ClassSearch:
             if(self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[2]').text == ""):
                 pass
             else:
-                self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[2]').text
+                self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[2]').text.replace('\n', ' ')
         except:
             self.class_info.BuildingName = "n/a"
             pass
 
         #CALL NUMBER
         try:
-            self.class_info.CallNo = find_between(class_details, 'CRN:', 'Campus:').strip()
+#            self.class_info.CallNo = find_between(class_details, 'CRN: ', 'Campus:')
+            self.driver.find_element_by_id('classDetails').click()
+            time.sleep(.5)
+            self.class_info.CallNo = self.driver.find_element_by_xpath('//*[@id="courseReferenceNumber"]').text.replace(' ', '')
         except:
             self.class_info.CallNo = "n/a"
             pass
@@ -288,20 +351,20 @@ class ClassSearch:
 
                 temp = ""
                 if(sun == "true"):
-                    temp += "Sunday\n"
+                    temp += "SUN"
                 if(mon == "true"):
-                    temp += "Monday\n"
+                    temp += "M"
                 if(tue == "true"):
-                    temp += "Tuesday\n"
+                    temp += "T"
                 if(wed == "true"):
-                    temp += "Wednesday\n"
+                    temp += "W"
                 if(thur == "true"):
-                    temp += "Thursday\n"
+                    temp += "R"
                 if(fri == "true"):
-                    temp += "Friday\n"
+                    temp += "F"
                 if(sat == "true"):
-                    temp += "Saturday\n"
-                self.class_info.Days = temp
+                    temp += "SAT"
+                self.class_info.Days = temp.replace('\n', ' ')
 
         except:
             self.class_info.Days = "n/a"
@@ -313,12 +376,12 @@ class ClassSearch:
             self.driver.find_element_by_id('facultyMeetingTimes').click()
             time.sleep(.5)
             try:
-                instructor1 = self.class_info.Instructor = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span/span[1]/a').text
+                instructor1 = self.class_info.Instructor = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span/span[1]/a').text.replace('\n', ' ')
             except:
                 instructor1 = ""
                 pass
             try:
-                instructor2 = self.class_info.Instructor = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span[2]/span/a').text
+                instructor2 = self.class_info.Instructor = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[1]/span[2]/span/a').text.replace('\n', ' ')
             except:
                 instructor2 = ""
                 pass
@@ -327,7 +390,7 @@ class ClassSearch:
             if (allinstructors == " "):
                 allinstructors = "Instructors are not available yet. "
 
-            self.class_info.Instructor = allinstructors
+            self.class_info.Instructor = allinstructors.replace('\n', ' ')
 
         except:
             self.class_info.Instructor = "n/a"
@@ -337,7 +400,7 @@ class ClassSearch:
         try:
             self.driver.find_element_by_id('enrollmentInfo').click()
             time.sleep(.5)
-            self.class_info.MaxEnrollment = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[4]').text
+            self.class_info.MaxEnrollment = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[4]').text.replace('\n', ' ')
         except:
             self.class_info.MaxEnrollment = "n/a"
             pass
@@ -346,7 +409,7 @@ class ClassSearch:
         try:
             self.driver.find_element_by_id('enrollmentInfo').click()
             time.sleep(.5)
-            self.class_info.NumberonWaitList = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[10]').text
+            self.class_info.NumberonWaitList = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[10]').text.replace('\n', ' ')
         except:
             self.class_info.NumberonWaitList = "n/a"
             pass
@@ -355,7 +418,7 @@ class ClassSearch:
         try:
             self.driver.find_element_by_id('facultyMeetingTimes').click()
             time.sleep(.5)
-            self.class_info.Time = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[1]').text
+            self.class_info.Time = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[1]').text.replace('\n', ' ')
         except:
             self.class_info.Time = "n/a"
             pass
@@ -364,43 +427,56 @@ class ClassSearch:
         try:
             self.driver.find_element_by_id('enrollmentInfo').click()
             time.sleep(.5)
-            self.class_info.WaitListMax = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[8]').text
+            self.class_info.WaitListMax = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/span[8]').text.replace('\n', ' ')
         except:
             self.class_info.WaitListMax = "n/a"
             pass
 
         #SCHEDULE TYPE
         try:
-            self.class_info.Lec_Dis = find_between(class_details, 'Schedule Type:', 'Instructional')
+            self.class_info.Lec_Dis = find_between(class_details, 'Schedule Type: ', '\nInstructional')
         except:
             self.class_info.Lec_Dis = "n/a"
             pass
 
         #SUBJECT
         try:
-            self.class_info.Subject = find_between(class_details, 'Subject:' , 'Course Number:')
+#            self.class_info.Subject = find_between(class_details, 'Subject: ' , '\nCourse Number:')
+            self.driver.find_element_by_id('classDetails').click()
+            time.sleep(.5)
+            self.class_info.Subject = self.abreviate_subjects(self.driver.find_element_by_xpath('//*[@id="subject"]').text)
+            print self.class_info.Subject
+            time.sleep(10)
         except:
             self.class_info.Subject = "n/a"
             pass
 
         #COURSE NUM
         try:
-            self.class_info.CourseNum = find_between(class_details, 'Course Number:', 'Title:')
+#            self.class_info.CourseNum = find_between(class_details, 'Course Number: ', '\nTitle:')
+            self.driver.find_element_by_id('classDetails').click()
+            time.sleep(.5)
+            self.class_info.CourseNum = self.driver.find_element_by_xpath('//*[@id="courseNumber"]').text
         except:
             self.class_info.CourseNum = "n/a"
             pass
 
         #COURSE TITLE
         try:
-            self.class_info.CourseTitle = find_between(class_details, 'Title:', 'Units:')
+#            self.class_info.CourseTitle = find_between(class_details, 'Title: ', '\nUnits:')
+            self.driver.find_element_by_id('classDetails').click()
+            time.sleep(.5)
+            self.class_info.CourseTitle = self.driver.find_element_by_xpath('//*[@id="courseTitle"]').text
         except:
             self.class_info.CourseTitle = "n/a"
             pass
 
         #UNITS
         try:
-            self.class_info.Units = find_between(class_details, 'Units:',
-                        'Grade Mode:')
+            self.class_info.Units = find_between(class_details, 'Units: ', '\nGrade Mode:')
+#            self.driver.find_element_by_id('classDetails').click()
+#            time.sleep(.5)
+#            self.class_info.CourseNum = self.driver.find_element_by_xpath('//*[@id="courseTitle"]').text
         except:
             self.class_info.Units = "n/a"
             pass
@@ -409,13 +485,13 @@ class ClassSearch:
         try:
             self.driver.find_element_by_id('courseDescription').click()
             time.sleep(.5)
-            self.class_info.CatalogDescription = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
+            self.class_info.CatalogDescription = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text.replace('\n', ' ')
             self.driver.find_element_by_id('facultyMeetingTimes').click()
 
             #not used for anything
-            class_details_2 = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
+            class_details_2 = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text.replace('\n', ' ')
             self.driver.find_element_by_id('enrollmentInfo').click()
-            class_details_3 = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
+            class_details_3 = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text.replace('\n', ' ')
         except:
             self.class_info.CatalogDescription = "n/a"
             pass
@@ -424,7 +500,7 @@ class ClassSearch:
         try:
             self.driver.find_element_by_id('preReqs').click()
             time.sleep(.5)
-            self.class_info.Prerequisites = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
+            self.class_info.Prerequisites = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text.replace('\n', ' ')
         except:
             self.class_info.Prerequisites = "n/a"
             pass
@@ -433,7 +509,7 @@ class ClassSearch:
         try:
             self.driver.find_element_by_id('coReqs').click()
             time.sleep(.5)
-            self.class_info.Co_requisites = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
+            self.class_info.Co_requisites = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text.replace('\n', ' ')
         except:
             self.class_info.Co_requisites = "n/a"
             pass
@@ -442,7 +518,7 @@ class ClassSearch:
         try:
             self.driver.find_element_by_id('restrictions').click()
             time.sleep(.5)
-            self.class_info.Restrictions = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text
+            self.class_info.Restrictions = self.driver.find_element_by_id('classDetailsContentDetailsDiv').text.replace('\n', ' ')
         except:
             self.class_info.Restrictions = "n/a"
             pass
@@ -475,7 +551,7 @@ class ClassSearch:
                     'CatalogDescription': self.class_info.CatalogDescription,
                     }
 
-        self.class_info.clean_data()
+#        self.class_info.clean_data()
         temp_Subject = self.class_info.Subject
         temp_callNo = self.class_info.CallNo
         result = requests.patch(firebase_url + '/' + self.quarter + '/' + temp_Subject + '/' + temp_callNo + '.json', data=json.dumps(data))
