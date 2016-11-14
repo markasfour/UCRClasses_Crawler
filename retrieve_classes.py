@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 
 import contextlib
 
@@ -148,7 +149,8 @@ class ClassSearch:
         self.total_pages = 0
         self.classes_list = []
         self.class_info = course()
-        self.wait = WebDriverWait(self.driver, 5)
+        self.wait = WebDriverWait(self.driver, 3)
+        self.start_page = 0
 
     def start_connection(self):
         driver = self.driver
@@ -163,6 +165,12 @@ class ClassSearch:
     def half_total_pages(self):
         half = 1
 
+    def set_start_page(self, page):
+        text_box = self.driver.find_element_by_class_name('page-number')
+        text_box.clear()
+        text_box.send_keys(page)
+        text_box.send_keys(Keys.ENTER)
+        
     def term_select(self):
         self.driver.find_element_by_id('s2id_txt_term').click()
         self.wait.until(EC.presence_of_element_located((By.ID,
@@ -217,12 +225,16 @@ class ClassSearch:
         print str(len(self.classes_list)) + ' classes on this page'
 
     def click_class(self, x):
-        self.classes_list[x].click()
+        try:
+            self.classes_list[x].click()
+        except:
+            return -1 
         try:
             self.wait.until(EC.presence_of_element_located((By.ID,
                                             'courseReferenceNumber')))
         except:
             pass
+        return 0 
 
     def close_class(self):
         self.driver.find_element_by_class_name('ui-icon-closethick'
@@ -712,43 +724,57 @@ class ClassSearch:
 
     def iterate_pages(self):
         counter = 1
+        time.sleep(3)
         if self.reverse:
             self.driver.find_element_by_class_name('last').click()
             try:
-                self.wait.until(EC.presence_of_element_located((By.CLASS_NAME,
-                                                'loading')))
+                #self.wait.until(EC.presence_of_element_located((By.CLASS_NAME,
+                                                #'loading')))
+                time.sleep(3)
             except:
                 pass
-            try:
-                self.wait.until(EC.invisibility_of_element_located((By.CLASS_NAME,
-                                                'loading')))
-            except:
-                pass
+            #try:
+                #self.wait.until(EC.invisibility_of_element_located((By.CLASS_NAME,
+                                                #'loading')))
+            #except:
+                #pass
+
+        if self.start_page != 0:
+            retriever.set_start_page(self.start_page)
+            print "Starting at page " + str(self.start_page)
+            time.sleep(3)
 
      # GET INITIAL PAGE CLASS INFORMATION HERE
         self.get_classes_on_page()
         for x in range(0, len(self.classes_list)):
-            self.click_class(x)
+            time.sleep(2)
+            if self.click_class(x) == -1:
+                print "UNCLICKABLE CLASS!!!"
+                continue
             self.get_class_info()
             self.send_info()
             self.close_class()
 
         while self.get_next_page():
             try:
-                self.wait.until(EC.presence_of_element_located((By.CLASS_NAME,
-                                                'loading')))
+                #self.wait.until(EC.presence_of_element_located((By.CLASS_NAME,
+                                                #'loading')))
+                time.sleep(3)
             except:
                 pass
-            try:
-                self.wait.until(EC.invisibility_of_element_located((By.CLASS_NAME,
-                                                'loading')))
-            except:
-                pass
+            #try:
+                #self.wait.until(EC.invisibility_of_element_located((By.CLASS_NAME,
+                                                #'loading')))
+            #except:
+                #pass
 
      # GET CLASS INFORMATION HERE
             self.get_classes_on_page()
             for x in range(0, len(self.classes_list)):
-                self.click_class(x)
+                time.sleep(2)
+                if self.click_class(x) == -1:
+                    print "UNCLICKABLE CLASS!!!"
+                    continue
                 self.get_class_info()
                 self.send_info()
                 self.close_class()
@@ -775,8 +801,8 @@ def arguments_reader(retriever):
         pass
 
 
-    # if len(sys.argv) >= 2:
-        # retriever.set_start_page(sys.argv[1])
+    if len(sys.argv) >= 2:
+        retriever.start_page = sys.argv[1] 
         # if len(sys.argv) == 3:
             # retriever.set_end_page(sys.argv[2])
 
