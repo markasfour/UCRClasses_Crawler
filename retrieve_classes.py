@@ -521,7 +521,69 @@ class ClassSearch:
 
         #SCHEDULE TYPE
         try:
-            self.class_info.Lec_Dis = find_between(class_details, 'Schedule Type: ', '\nInstructional')
+            tempLecDis = find_between(class_details, 'Schedule Type: ', '\nInstructional')
+            if tempLecDis == "Lecture":
+                self.class_info.Lec_Dis = "LEC"
+            elif tempLecDis[0:3] == "Act":
+                self.class_info.Lec_Dis = "ACT"
+            elif tempLecDis[0:3] == "Add":
+                self.class_info.Lec_Dis = "LCA"
+            elif tempLecDis[0:3] == "Cli":
+                self.class_info.Lec_Dis = "CLN"
+            elif tempLecDis[0:3] == "Col":
+                self.class_info.Lec_Dis = "COL"
+            elif tempLecDis[0:3] == "Con":
+                self.class_info.Lec_Dis = "CON"
+            elif tempLecDis[0:3] == "Dem":
+                self.class_info.Lec_Dis = "DEM"
+            elif tempLecDis == "Discussion":
+                self.class_info.Lec_Dis = "DIS"
+            elif tempLecDis == "Discussion, Lab, and Lecture":
+                self.class_info.Lec_Dis = "DLL"
+            elif tempLecDis[0:3] == "Field":
+                self.class_info.Lec_Dis = "FLD"
+            elif tempLecDis[0:3] == "Ind":
+                self.class_info.Lec_Dis = "IND"
+            elif tempLecDis[0:3] == "Int":
+                self.class_info.Lec_Dis = "INT"
+            elif tempLecDis[0:3] == "Lab":
+                self.class_info.Lec_Dis = "LAB"
+            elif tempLecDis == "Lecture and Discussion":
+                self.class_info.Lec_Dis = "LCD"
+            elif tempLecDis == "Lecture and Laboratory":
+                self.class_info.Lec_Dis = "LCL"
+            elif tempLecDis == "Lecture, Lab, Field":
+                self.class_info.Lec_Dis = "LLF"
+            elif tempLecDis == "Lecture, Sem, Lab & Sch Res":
+                self.class_info.Lec_Dis = "LSLSR"
+            elif tempLecDis[0:3] == "Onl":
+                self.class_info.Lec_Dis = "ODL"
+            elif tempLecDis[0:3] == "Pra":
+                self.class_info.Lec_Dis = "Practium"
+            elif tempLecDis[0:3] == "Rea":
+                self.class_info.Lec_Dis = "RED"
+            elif tempLecDis[0:3] == "Res":
+                self.class_info.Lec_Dis = "RESB"
+            elif tempLecDis[0:3] == "Scr":
+                self.class_info.Lec_Dis = "SCR"
+            elif tempLecDis == "Seminar":
+                self.class_info.Lec_Dis = "SEM"
+            elif tempLecDis == "Seminar and Laboratory":
+                self.class_info.Lec_Dis = "SL"
+            elif tempLecDis[0:3] == "Stu":
+                self.class_info.Lec_Dis = "STU"
+            elif tempLecDis[0:3] == "Ter":
+                self.class_info.Lec_Dis = "TRP"
+            elif tempLecDis[0:3] == "The":
+                self.class_info.Lec_Dis = "THE"
+            elif tempLecDis[0:3] == "Tut":
+                self.class_info.Lec_Dis = "TUT"
+            elif tempLecDis == "Workshop":
+                self.class_info.Lec_Dis = "WRK"
+            elif tempLecDis == "Workshop and Screening":
+                self.class_info.Lec_Dis = "WKS"
+            elif tempLecDis[0:3] == "Wri":
+                self.class_info.Lec_Dis = "WWK"                
         except:
             self.class_info.Lec_Dis = "n/a"
             pass
