@@ -238,58 +238,137 @@ class ClassSearch:
             temp = ""
             if(subject == "Academic Resource Center"):
                 temp = "ARC"
-#            elif(subject == ""):
-#                temp = "ANTH"
-#            elif(subject == ""):
-#                temp = "ARBC"
-#            elif(subject == ""):
-#                temp = "ARLC"
-#            elif(subject == ""):
-#                temp = "ART"
-#            elif(subject == ""):
-#                temp = "AST"
-#            elif(subject == ""):
-#                temp = "BCH"
-#            elif(subject == ""):
-#                temp = "BIEN"
-#            elif(subject == ""):
-#                temp = "BIOL"
-#            elif(subject == ""):
-#                temp = "BMSC"
-#            elif(subject == ""):
-#                temp = "BPSC"
-#            elif(subject == ""):
-#                temp = "BSWT"
-#            elif(subject == ""):
-#                temp = "BUS"
-#            elif(subject == ""):
-#                temp = "CBNS"
-#            elif(subject == ""):
-#                temp = "CMDB"
-#            elif(subject == ""):
-#                temp = "CRWT"
-#            elif(subject == ""):
-#                temp = "DNCE"
-#            elif(subject == ""):
-#                temp = "ECON"
-#            elif(subject == ""):
-#                temp = "EDUC"
-#            elif(subject == ""):
-#                temp = "GBST"
-#            elif(subject == ""):
-#                temp = "GER"
-#            elif(subject == ""):
-#                temp = "GRK"
-#            elif(subject == ""):
-#                temp = "HASS"
-#            elif(subject == ""):
-#                temp = "HISA"
-#            elif(subject == ""):
-#                temp = "HISE"
-
+            elif(subject == "Anthropology"):
+                temp = "ANTH"
+            elif(subject == "Arabic Language"):
+                temp = "ARBC"
+            elif(subject == "Arabic Literature and Cultures"):
+                temp = "ARLC"
+            elif subject == "Art" or subject == "Art History":
+                temp = "ART"
+            elif(subject == "Asian Studies"):
+                temp = "AST"
+            elif(subject == "Biochemistry"):
+                temp = "BCH"
+            elif(subject == "Bioengineering"):
+                temp = "BIEN"
+            elif(subject == "Biology"):
+                temp = "BIOL"
+            elif(subject == "Biomedical Sciences"):
+                temp = "BMSC"
+            elif(subject == "Botany/Plant Science"):
+                temp = "BPSC"
+            elif(subject == "Basic Writing"):
+                temp = "BSWT"
+            elif(subject == "Business"):
+                temp = "BUS"
+            elif(subject == "Cell Biology and Neuroscience"):
+                temp = "CBNS"
+            elif(subject == "Cell, Molecular, and Develpmnt"):
+                temp = "CMDB"
+            elif(subject == "Creative Writing"):
+                temp = "CRWT"
+            elif(subject == "Dance"):
+                temp = "DNCE"
+            elif(subject == "Economics"):
+                temp = "ECON"
+            elif(subject == "Education"):
+                temp = "EDUC"
+            elif(subject == "Global Studies"):
+                temp = "GBST"
+            elif(subject == "German"):
+                temp = "GER"
+            elif(subject == "Greek"):
+                temp = "GRK"
+            elif(subject == "Humanities, Arts and Soc Sci"):
+                temp = "HASS"
+            elif(subject == "History of the Americas"):
+                temp = "HISA"
+            elif(subject == "History of Europe"):
+                temp = "HISE"
+            elif(subject == "History"):
+                temp = "HIST"
+            elif(subject == "Honors"):
+                temp = "HNPG"
+            elif(subject == "Italian"):
+                temp = "ITAL"
+            elif(subject == "Japanese"):
+                temp = "JPN"
+            elif(subject == "Korean"):
+                temp = "KOR"
+            elif(subject == "Latin"):
+                temp = "LATN"
+            elif(subject == "Lesbian, Gay, Bisexual Studies"):
+                temp = "LGBS"
+            elif(subject == "Linguistics"):
+                temp = "LING"
+            elif(subject == "Latin American Studies"):
+                temp = "LNST"
+            elif(subject == "Law & Society"):
+                temp = "LWSO"
+            elif(subject == "Mathematics"):
+                temp = "MATH"
+            elif(subject == "Microbiology"):
+                temp = "MCBL"
+            elif(subject == "Media and Cultural Studies"):
+                temp = "MCS"
+            elif(subject == "School of Medicine"):
+                temp = "MDCL"
+            elif(subject == "Mechanical Engineering"):
+                temp = "ME"
+            elif(subject == "Middle East and Islamic Studies"):
+                temp = "MEIS"
+            elif(subject == "Management"):
+                temp = "MGT"
+            elif(subject == "Materials Sci and Engineering"):
+                temp = "MSE"
+            elif(subject == "Music"):
+                temp = "MUS"
+            elif(subject == "Natural &Agricultural Sciences"):
+                temp = "NASC"
+            elif(subject == "Nematology"):
+                temp = "NEM"
+            elif(subject == "Neuroscience"):
+                temp = "NRSC"
+            elif(subject == "Public Policy"):
+                temp = "PBPL"
+            elif(subject == "Peace and Conflict Studies"):
+                temp = "PCST"
+            elif(subject == "Philosophy"):
+                temp = "PHIL"
+            elif(subject == "Physics"):
+                temp = "PHYS"
+            elif(subject == "Plant Pathology"):
+                temp = "PLPA"
+            elif(subject == "Political Science"):
+                temp = "POSC"
+            elif(subject == "Psychology"):
+                temp = "PSYC"
+            elif(subject == "Recreation"):
+                temp = "REC"
+            elif(subject == "Religious Studies"):
+                temp = "RLST"
+            elif(subject == "Russian Studies"):
+                temp = "RUSN"
+            elif(subject == "Southeast Asian Studies"):
+                temp = "SEAS"
+            elif(subject == "Sociology"):
+                temp = "SOC"
+            elif(subject == "Spanish"):
+                temp = "SPN"
+            elif(subject == "Statistics"):
+                temp = "STAT"
+            elif(subject == "Soil and Water Science"):
+                temp = "SWSC"
+            elif(subject == "Theater, Film & Digital Prod"):
+                temp = "TFDP"
+            elif(subject == "Urban Studies"):
+                temp = "URST"
+            elif(subject == "Vietnamese"):
+                temp = "VNM"
             return temp
         except:
-            temp = "unknown major from testing"
+            temp = subject + "?"
             return temp
 ######################################################################################################
 
@@ -319,6 +398,14 @@ class ClassSearch:
                 pass
             else:
                 self.class_info.BuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[2]').text.replace('\n', ' ')
+                
+                tempBuildingName = self.driver.find_element_by_xpath('//*[@id="classDetailsContentDetailsDiv"]/div/div[2]/div/div[2]/div[2]').text.replace('\n', ' ')
+                indexBuildingName = 0
+                while indexBuildingName >= 0:
+                    indexBuildingName = tempBuildingName.find("|")
+                    tempBuildingName = tempBuildingName[indexBuildingName+1:]
+                
+                self.class_info.RoomAbrv = tempBuildingName
         except:
             self.class_info.BuildingName = "n/a"
             pass
@@ -456,7 +543,10 @@ class ClassSearch:
 #            self.class_info.CourseNum = find_between(class_details, 'Course Number: ', '\nTitle:')
             self.driver.find_element_by_id('classDetails').click()
             time.sleep(.5)
-            self.class_info.CourseNum = self.driver.find_element_by_xpath('//*[@id="courseNumber"]').text
+            tempSubject = self.class_info.Subject
+            tempCourseNum = self.driver.find_element_by_xpath('//*[@id="courseNumber"]').text
+            sectionNum = self.driver.find_element_by_xpath('//*[@id="sectionNumber"]').text
+            self.class_info.CourseNum = tempSubject + " " + tempCourseNum + " - " + sectionNum
         except:
             self.class_info.CourseNum = "n/a"
             pass
