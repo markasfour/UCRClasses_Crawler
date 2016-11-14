@@ -405,7 +405,7 @@ class ClassSearch:
                     indexBuildingName = tempBuildingName.find("|")
                     tempBuildingName = tempBuildingName[indexBuildingName+1:]
                 
-                self.class_info.RoomAbrv = tempBuildingName
+                self.class_info.RoomAbrv = tempBuildingName.strip()
         except:
             self.class_info.BuildingName = "n/a"
             pass
