@@ -495,6 +495,36 @@ class ClassSearch:
         except:
             class_details = "n/a"
             pass
+            
+        #COURSE NUM
+        try:
+#            self.class_info.CourseNum = find_between(class_details, 'Course Number: ', '\nTitle:')
+            tempSubject = self.class_info.Subject
+            print tempSubject
+            tempCourseNum = self.driver.find_element_by_xpath('//*[@id="courseNumber"]').text
+            print tempCourseNum
+            sectionNum = self.driver.find_element_by_xpath('//*[@id="sectionNumber"]').text
+            print sectionNum
+            self.class_info.CourseNum = tempSubject + " " + tempCourseNum + " - " + sectionNum
+        except:
+            print "error: ourse num"
+            self.class_info.CourseNum = "n/a"
+            pass
+        
+        #COURSE TITLE
+        try:
+            self.class_info.CourseTitle = self.driver.find_element_by_xpath('//*[@id="courseTitle"]').text
+        except:
+            self.class_info.CourseTitle = "n/a"
+            pass
+
+        #UNITS
+        try:
+            self.class_info.Units = find_between(class_details, 'Units: ', '\nGrade Mode:')
+        except:
+            self.class_info.Units = "n/a"
+            pass
+
 
         #Available Seats
         try:
@@ -879,31 +909,6 @@ class ClassSearch:
             self.class_info.Lec_Dis = "n/a"
             pass
 
-
-#COURSE NUM
-        try:
-#            self.class_info.CourseNum = find_between(class_details, 'Course Number: ', '\nTitle:')
-            tempSubject = self.class_info.Subject
-            tempCourseNum = self.driver.find_element_by_xpath('//*[@id="courseNumber"]').text
-            sectionNum = self.driver.find_element_by_xpath('//*[@id="sectionNumber"]').text
-            self.class_info.CourseNum = tempSubject + " " + tempCourseNum + " - " + sectionNum
-        except:
-            self.class_info.CourseNum = "n/a"
-            pass
-
-        #COURSE TITLE
-        try:
-            self.class_info.CourseTitle = self.driver.find_element_by_xpath('//*[@id="courseTitle"]').text
-        except:
-            self.class_info.CourseTitle = "n/a"
-            pass
-
-        #UNITS
-        try:
-            self.class_info.Units = find_between(class_details, 'Units: ', '\nGrade Mode:')
-        except:
-            self.class_info.Units = "n/a"
-            pass
 
         #CATALOG DESCRIPTION
         try:
