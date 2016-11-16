@@ -484,7 +484,7 @@ class ClassSearch:
         #SUBJECT
         try:
             self.class_info.Subject = self.abreviate_subjects(self.driver.find_element_by_xpath('//*[@id="subject"]').text)
-            print self.class_info.Subject
+#            print self.class_info.Subject
             time.sleep(10)
         except:
             self.class_info.Subject = "n/a"
@@ -500,11 +500,11 @@ class ClassSearch:
         try:
 #            self.class_info.CourseNum = find_between(class_details, 'Course Number: ', '\nTitle:')
             tempSubject = self.class_info.Subject
-            print tempSubject
+#            print tempSubject
             tempCourseNum = self.driver.find_element_by_xpath('//*[@id="courseNumber"]').text
-            print tempCourseNum
+#            print tempCourseNum
             sectionNum = self.driver.find_element_by_xpath('//*[@id="sectionNumber"]').text
-            print sectionNum
+#            print sectionNum
             self.class_info.CourseNum = tempSubject + " " + tempCourseNum + " - " + sectionNum
         except:
             print "error: ourse num"
@@ -1014,6 +1014,8 @@ class ClassSearch:
             time.sleep(3)
 
      # GET INITIAL PAGE CLASS INFORMATION HERE
+        tableClear()
+        print "cleared table count for first page"
         self.get_classes_on_page()
         for x in range(0, len(self.classes_list)):
             time.sleep(2)
@@ -1025,6 +1027,8 @@ class ClassSearch:
             self.close_class()
 
         while self.get_next_page():
+            tableClear()
+            print "Cleared table count for next page"
             try:
                 #self.wait.until(EC.presence_of_element_located((By.CLASS_NAME,
                                                 #'loading')))
