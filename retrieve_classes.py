@@ -361,22 +361,68 @@ class ClassSearch:
                 temp = "BSWT"
             elif(subject == "Business"):
                 temp = "BUS"
+            elif(subject == "CHASS First Yr Experience Prog"):
+                temp = "CHFY"
             elif(subject == "Cell Biology and Neuroscience"):
                 temp = "CBNS"
             elif(subject == "Cell, Molecular, and Develpmnt"):
                 temp = "CMDB"
+            elif(subject == "Chemical and Environmental Eng"):
+                temp = "CEE"
+            elif(subject == "Chemistry"):
+                temp = "CHEM"
+            elif(subject == "Chinese"):
+                temp = "CHN"
+            elif(subject == "Classical Studies"):
+                temp = "CLA"
+            elif(subject == "Comparative Ancient Civilizatn"):
+                temp = "CPAC"
+            elif(subject == "Comparative Literature"):
+                temp = "CPLT"
+            elif(subject == "Computer Science"):
+                temp = "CS"
             elif(subject == "Creative Writing"):
                 temp = "CRWT"
+            elif(subject == "Crwt Wrt & Wrt for Perf Arts"):
+                temp = "CWPA"
             elif(subject == "Dance"):
                 temp = "DNCE"
             elif(subject == "Economics"):
                 temp = "ECON"
             elif(subject == "Education"):
                 temp = "EDUC"
+            elif(subject == "Electrical Engineering"):
+                temp = "EE"
+            elif(subject == "English"):
+                temp = "ENGL"
+            elif(subject == "Entomology"):
+                temp = "ENTM"
+            elif(subject == "Environmental Engineering"):
+                temp = "ENVE"
+            elif(subject == "Environmental Sciences"):
+                temp = "ENSC"
+            elif(subject == "Environmental Toxicology"):
+                temp = "ENTX"
+            elif(subject == "Ethnic Studies"):
+                temp = "ETST"
+            elif(subject == "Evoltn, Ecolgy, & Orgnsml Bio"):
+                temp = "EEOB"
+            elif(subject == "Filipino"):
+                temp = "FIL"
+            elif(subject == "French"):
+                temp = "FREN"
+            elif(subject == "Gender and Sexuality Studies"):
+                temp = "GSST"
+            elif(subject == "Genetics"):
+                temp = "GEN"
+            elif(subject == "Geosciences"):
+                temp = "GEO"
             elif(subject == "Global Studies"):
                 temp = "GBST"
             elif(subject == "German"):
                 temp = "GER"
+            elif(subject == "Graduate Division"):
+                temp = "GDIV"
             elif(subject == "Greek"):
                 temp = "GRK"
             elif(subject == "Humanities, Arts and Soc Sci"):
@@ -405,6 +451,8 @@ class ClassSearch:
                 temp = "LNST"
             elif(subject == "Law & Society"):
                 temp = "LWSO"
+            elif(subject == "Low Res-Crwt Wrt&Wrt-Perf Arts"):
+                temp = "CWLR"
             elif(subject == "Mathematics"):
                 temp = "MATH"
             elif(subject == "Microbiology"):
@@ -465,6 +513,8 @@ class ClassSearch:
                 temp = "URST"
             elif(subject == "Vietnamese"):
                 temp = "VNM"
+            else:
+                temp = "OTHR"
             return temp
         except:
             temp = subject + "?"
@@ -982,8 +1032,9 @@ class ClassSearch:
 #        self.class_info.clean_data()
         temp_Subject = self.class_info.Subject
         temp_callNo = self.class_info.CallNo
-        result = requests.patch(firebase_url + '/' + self.quarter + '/' + temp_Subject + '/' + temp_callNo + '.json', data=json.dumps(data))
-        print 'Record inserted. Result Code = ' + str(result.status_code) + ',' + result.text
+        if(temp_Subject != '' and temp_Subject != "n/a" and temp_callNo != '' and temp_callNo != "n/a"):
+            result = requests.patch(firebase_url + '/' + self.quarter + '/' + temp_Subject + '/' + temp_callNo + '.json', data=json.dumps(data))
+            print 'Record inserted. Result Code = ' + str(result.status_code) + ',' + result.text
 
 
     def iterate_pages(self):
