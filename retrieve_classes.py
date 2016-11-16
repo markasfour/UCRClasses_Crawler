@@ -473,14 +473,14 @@ class ClassSearch:
 
     def get_class_info(self):
         self.class_info.clear_info()
-        
+
         #CALL NUMBER
         try:
             self.class_info.CallNo = self.driver.find_element_by_xpath('//*[@id="courseReferenceNumber"]').text.replace(' ', '')
         except:
             self.class_info.CallNo = "n/a"
             pass
-        
+
         #SUBJECT
         try:
             self.class_info.Subject = self.abreviate_subjects(self.driver.find_element_by_xpath('//*[@id="subject"]').text)
@@ -535,6 +535,7 @@ class ClassSearch:
         try:
             try:
                 self.driver.find_element_by_xpath('//*[@id="table1"]/tbody/tr[' + str(table) + ']/td[8]/div/div/ul/')
+                tableInc()
             except:
                 sun = self.driver.find_element_by_xpath('//*[@id="table1"]/tbody/tr[' + str(table) + ']/td[8]/div/div/ul/li[1]').get_attribute('aria-checked')
                 mon = self.driver.find_element_by_xpath('//*[@id="table1"]/tbody/tr[' + str(table) + ']/td[8]/div/div/ul/li[2]').get_attribute('aria-checked')
@@ -565,7 +566,7 @@ class ClassSearch:
             self.class_info.Days = "n/a"
             tableInc()
             pass
-        
+
         #instructor name
         try:
             try:
@@ -596,7 +597,6 @@ class ClassSearch:
             self.class_info.Time = "n/a"
             pass
 
-        
         #final exam times
         #07:40 PM - 09:00 PM
         if self.class_info.Days  == 'MWF' and self.class_info.Time == "07:10 AM - 08:00 AM":
@@ -880,7 +880,7 @@ class ClassSearch:
             pass
 
 
-        #COURSE NUM
+#COURSE NUM
         try:
 #            self.class_info.CourseNum = find_between(class_details, 'Course Number: ', '\nTitle:')
             tempSubject = self.class_info.Subject
@@ -984,6 +984,11 @@ class ClassSearch:
     def iterate_pages(self):
         counter = 1
         time.sleep(3)
+        print "\ntrying to click settings icon\n"
+        self.wait
+        self.driver.find_element_by_class_name('column-visibility-menu').click()
+        self.driver.find_element_by_xpath('//*[@id="menuItemId9"]').click()
+        
         if self.reverse:
             self.driver.find_element_by_class_name('last').click()
             try:
