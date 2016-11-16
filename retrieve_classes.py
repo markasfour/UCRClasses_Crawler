@@ -55,8 +55,9 @@ class course:
         self.CourseNum = ''
         self.CourseTitle = ''
         self.Days = ''
-        self.FinalExamDate = ''
-        self.FinalExamTime = ''
+        #self.FinalExamDate = ''
+        #self.FinalExamTime = ''
+        self.FinalExamInfo = ''
         self.Instructor = ''
         self.Lec_Dis = ''
         self.MaxEnrollment = ''
@@ -78,8 +79,9 @@ class course:
         print 'Course Number: ' + self.CourseNum
         print 'Course Title: ' + self.CourseTitle
         print '***DAYSSSS***: ' + self.Days
-        print 'Final Exam Date: ' + self.FinalExamDate
-        print 'Final Exam Time: ' + self.FinalExamTime
+        #print 'Final Exam Date: ' + self.FinalExamDate
+        #print 'Final Exam Time: ' + self.FinalExamTime
+        print '***FINAL EXAM INFOOOO***: ' + self.FinalExamInfo
         print 'Instructor: ' + self.Instructor
         print '***LEC_DISSSSS*****: ' + self.Lec_Dis
         print 'Max Enrollment: ' + self.MaxEnrollment
@@ -101,8 +103,9 @@ class course:
         self.CourseNum = ''
         self.CourseTitle = ''  # done
         self.Days = ''
-        self.FinalExamDate = ''
-        self.FinalExamTime = ''
+        #self.FinalExamDate = ''
+        #self.FinalExamTime = ''
+        self.FinalExamInfo = ''
         self.Instructor = ''
         self.Lec_Dis = ''  # done
         self.MaxEnrollment = ''
@@ -124,8 +127,9 @@ class course:
         self.CourseNum = self.CourseNum.replace('\n', ' ')
         self.CourseTitle = self.CourseTitle.replace('\n', ' ')
         self.Days = self.Days.replace('\n', ' ')
-        self.FinalExamDate = self.FinalExamDate.replace('\n', ' ')
-        self.FinalExamTime = self.FinalExamTime.replace('\n', ' ')
+        #self.FinalExamDate = self.FinalExamDate.replace('\n', ' ')
+        #self.FinalExamTime = self.FinalExamTime.replace('\n', ' ')
+        self.FinalExamInfo = self.FinalExamInfo.replace('\n', ' ')
         self.Instructor = self.Instructor.replace('\n', ' ')
         self.Lec_Dis = self.Lec_Dis.replace('\n', ' ')
         self.MaxEnrollment = self.MaxEnrollment.replace('\n', ' ')
@@ -142,19 +146,11 @@ class ExamTimeSearch:
     def __init__(self):
         self.driver = webdriver.Chrome()
         self.wait = WebDriverWait(self.driver, 3)
-        
-        self.mwf_day_table = []
-        self.mwf_time_table = []
-        
-        self.mw_day_table = []
-        self.mw_time_table = []
-
-        self.tr_day_table = []
-        self.tr_time_table = []
-        
-        self.one_day_day_table = []
-        self.one_day_time_table = []
-
+        self.mwf_table = []
+        self.mw_table = []
+        self.tr_table = []
+        self.one_day_table = []
+    
     def start_connection(self):
         driver = self.driver
         driver.get('http://registrar.ucr.edu/registrar/academic-calendar/final-exam-schedule.html')
@@ -166,65 +162,49 @@ class ExamTimeSearch:
         self.driver.find_element_by_id('0').click()
         time.sleep(.5)
         for x in range(2, 24):
-            #class_time = self.driver.find_element_by_xpath('//*[@id="MainContent_gvMWF"]/tbody/tr[' + str(x) + ']/td[1]').text
-            exam_time_full = self.driver.find_element_by_xpath('//*[@id="MainContent_gvMWF"]/tbody/tr[' + str(x) + ']/td[2]').text
-            exam_day, exam_date, exam_time = exam_time_full.split(',')
-            exam_day_full = exam_day + exam_date
-            
-            edf = str(exam_day_full)
-            et = str(exam_time)
-            self.mwf_day_table.append(edf)
-            self.mwf_time_table.append(et)
+            class_time = self.driver.find_element_by_xpath('//*[@id="MainContent_gvMWF"]/tbody/tr[' + str(x) + ']/td[1]').text
+            exam_time  = self.driver.find_element_by_xpath('//*[@id="MainContent_gvMWF"]/tbody/tr[' + str(x) + ']/td[2]').text
+            total_time = class_time + "  =>  " + exam_time
+            tt = str(total_time)
+            self.mwf_table.append(tt)       
 #        for x in range(0, 22):
-#            print self.mwf_day_table[x]
+#            print self.mwf_table[x]
 #        
         self.driver.find_element_by_id('1').click()
         time.sleep(.5)
         for x in range(2, 12):
-            #class_time = self.driver.find_element_by_xpath('//*[@id="MainContent_gvMW"]/tbody/tr[' + str(x) + ']/td[1]').text
-            exam_time_full  = self.driver.find_element_by_xpath('//*[@id="MainContent_gvMW"]/tbody/tr[' + str(x) + ']/td[2]').text
-            exam_day, exam_date, exam_time = exam_time_full.split(',')
-            exam_day_full = exam_day + exam_date
-            
-            edf = str(exam_day_full)
-            et = str(exam_time)
-            self.mw_day_table.append(edf)
-            self.mw_time_table.append(et)
+            class_time = self.driver.find_element_by_xpath('//*[@id="MainContent_gvMW"]/tbody/tr[' + str(x) + ']/td[1]').text
+            exam_time  = self.driver.find_element_by_xpath('//*[@id="MainContent_gvMW"]/tbody/tr[' + str(x) + ']/td[2]').text
+            total_time = class_time + "  =>  " + exam_time
+            tt = str(total_time)
+            self.mw_table.append(tt)       
         
 #        for x in range(0, 10):
-#            print self.mw_day_table[x]
+#            print self.mw_table[x]
 #
         self.driver.find_element_by_id('2').click()
         time.sleep(.5)
         for x in range(2, 17):
-            #class_time = self.driver.find_element_by_xpath('//*[@id="MainContent_gvTR"]/tbody/tr[' + str(x) + ']/td[1]').text
-            exam_time_full  = self.driver.find_element_by_xpath('//*[@id="MainContent_gvTR"]/tbody/tr[' + str(x) + ']/td[2]').text
-            exam_day, exam_date, exam_time = exam_time_full.split(',')
-            exam_day_full = exam_day + exam_date
-            
-            edf = str(exam_day_full)
-            et = str(exam_time)
-            self.tr_day_table.append(edf)
-            self.tr_time_table.append(et)
+            class_time = self.driver.find_element_by_xpath('//*[@id="MainContent_gvTR"]/tbody/tr[' + str(x) + ']/td[1]').text
+            exam_time  = self.driver.find_element_by_xpath('//*[@id="MainContent_gvTR"]/tbody/tr[' + str(x) + ']/td[2]').text
+            total_time = class_time + "  =>  " + exam_time
+            tt = str(total_time)
+            self.tr_table.append(tt)       
         
 #        for x in range(0, 15):
-#            print self.tr_day_table[x]
+#            print self.tr_table[x]
 #
-        self.driver.find_element_by_id('3').click()
+#        self.driver.find_element_by_id('3').click()
         time.sleep(.5)
         for x in range(2, 21):
-            #class_time = self.driver.find_element_by_xpath('//*[@id="MainContent_gv1AWK"]/tbody/tr[' + str(x) + ']/td[1]').text
-            exam_time_full  = self.driver.find_element_by_xpath('//*[@id="MainContent_gv1AWK"]/tbody/tr[' + str(x) + ']/td[2]').text
-            exam_day, exam_date, exam_time = exam_time_full.split(',')
-            exam_day_full = exam_day + exam_date
-            
-            edf = str(exam_day_full)
-            et = str(exam_time)
-            self.one_day_day_table.append(edf)
-            self.one_day_time_table.append(et)
-       
+            class_time = self.driver.find_element_by_xpath('//*[@id="MainContent_gv1AWK"]/tbody/tr[' + str(x) + ']/td[1]').text
+            exam_time  = self.driver.find_element_by_xpath('//*[@id="MainContent_gv1AWK"]/tbody/tr[' + str(x) + ']/td[2]').text
+            total_time = class_time + "  =>  " + exam_time
+            tt = str(total_time)
+            self.one_day_table.append(tt)       
+        
 #        for x in range(0, 19):
-#            print self.one_day_day_table[x]
+#            print self.one_day_table[x]
 #
 class ClassSearch:
 
@@ -274,12 +254,14 @@ class ClassSearch:
                                         'search-go')))
         self.driver.find_element_by_id('search-go').click()
 
+
     def increase_classes_per_page(self):
         self.wait.until(EC.presence_of_element_located((By.CLASS_NAME,
                                         'page-size-select')))
         total_pages = self.driver.find_element_by_class_name('total-pages').text
         page_size_element = Select(self.driver.find_element_by_class_name('page-size-select'))
         page_size_element.select_by_value('50')
+
         while 1:
             self.wait.until(EC.presence_of_element_located((By.CLASS_NAME,
                                             'total-pages')))
@@ -313,6 +295,7 @@ class ClassSearch:
 
     def click_class(self, x):
         try:
+#            time.sleep(2)
             self.classes_list[x].click()
         except:
             return -1 
@@ -535,6 +518,7 @@ class ClassSearch:
         try:
             try:
                 self.driver.find_element_by_xpath('//*[@id="table1"]/tbody/tr[' + str(table) + ']/td[8]/div/div/ul/')
+                tableInc()
             except:
                 sun = self.driver.find_element_by_xpath('//*[@id="table1"]/tbody/tr[' + str(table) + ']/td[8]/div/div/ul/li[1]').get_attribute('aria-checked')
                 mon = self.driver.find_element_by_xpath('//*[@id="table1"]/tbody/tr[' + str(table) + ']/td[8]/div/div/ul/li[2]').get_attribute('aria-checked')
@@ -600,212 +584,148 @@ class ClassSearch:
         #final exam times
         #07:40 PM - 09:00 PM
         if self.class_info.Days  == 'MWF' and self.class_info.Time == "07:10 AM - 08:00 AM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[0]
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[0] 
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[0] 
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "07:40 AM - 08:30 AM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[1]
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[1] 
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[1]        
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "08:10 AM - 09:00 AM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[2]        
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[2]        
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[2]        
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "08:40 AM - 09:30 AM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[3]        
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[3]        
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[3]        
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "09:10 AM - 10:00 AM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[4]
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[4]
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[4]        
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "09:40 AM - 10:30 AM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[5]        
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[5]        
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[5]        
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "10:10 AM - 11:00 AM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[6] 
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[6]  
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[6] 
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "10:40 AM - 11:30 AM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[7] 
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[7] 
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[7] 
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "11:10 AM - 12:00 PM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[8]
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[8]
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[8]
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "11:40 AM - 12:30 PM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[9] 
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[9]        
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[9] 
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "12:10 PM - 01:00 PM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[10] 
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[10]  
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[10] 
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "12:40 PM - 01:30 PM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[11]
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[11] 
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[11]
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "01:10 PM - 02:00 PM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[12] 
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[12] 
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[12] 
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "01:40 PM - 02:30 PM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[13] 
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[13] 
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[13] 
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "02:10 PM - 03:00 PM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[14] 
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[14] 
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[14] 
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "02:40 PM - 03:30 PM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[15] 
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[15] 
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[15] 
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "03:10 PM - 04:00 PM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[16] 
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[16] 
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[16] 
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "04:10 PM - 05:00 PM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[17] 
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[17] 
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[17] 
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "05:10 PM - 06:00 PM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[18] 
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[18] 
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[18] 
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "06:10 PM - 07:00 PM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[19] 
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[19] 
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[19] 
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "07:10 PM - 08:00 PM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[20] 
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[20] 
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[20] 
         elif self.class_info.Days  == 'MWF' and self.class_info.Time == "08:10 PM - 09:00 PM":
-            self.class_info.FinalExamDate = et_retriever.mwf_day_table[21] 
-            self.class_info.FinalExamTime = et_retriever.mwf_time_table[21] 
+            self.class_info.FinalExamInfo = et_retriever.mwf_table[21] 
+       
         
         
         
         elif self.class_info.Days  == 'MW' and self.class_info.Time == "08:10 AM - 09:30 AM":
-            self.class_info.FinalExamDate = et_retriever.mw_day_table[0]
-            self.class_info.FinalExamTime = et_retriever.mw_time_table[0] 
+            self.class_info.FinalExamInfo = et_retriever.mw_table[0] 
         elif self.class_info.Days  == 'MW' and self.class_info.Time == "09:40 AM - 11:00 AM":
-            self.class_info.FinalExamDate = et_retriever.mw_day_table[1]
-            self.class_info.FinalExamTime = et_retriever.mw_time_table[1]
+            self.class_info.FinalExamInfo = et_retriever.mw_table[1] 
         elif self.class_info.Days  == 'MW' and self.class_info.Time == "11:10 AM - 12:30 PM":
-            self.class_info.FinalExamDate = et_retriever.mw_day_table[2] 
-            self.class_info.FinalExamTime = et_retriever.mw_time_table[2]
+            self.class_info.FinalExamInfo = et_retriever.mw_table[2] 
         elif self.class_info.Days  == 'MW' and self.class_info.Time == "12:40 PM - 02:00 PM":
-            self.class_info.FinalExamDate = et_retriever.mw_day_table[3] 
-            self.class_info.FinalExamTime = et_retriever.mw_time_table[3]
+            self.class_info.FinalExamInfo = et_retriever.mw_table[3] 
         elif self.class_info.Days  == 'MW' and self.class_info.Time == "02:10 PM - 03:30 PM":
-            self.class_info.FinalExamDate = et_retriever.mw_day_table[4] 
-            self.class_info.FinalExamTime = et_retriever.mw_time_table[4]
+            self.class_info.FinalExamInfo = et_retriever.mw_table[4] 
         elif self.class_info.Days  == 'MW' and self.class_info.Time == "03:40 PM - 05:00 PM":
-            self.class_info.FinalExamDate = et_retriever.mw_day_table[5] 
-            self.class_info.FinalExamTime = et_retriever.mw_time_table[5]
+            self.class_info.FinalExamInfo = et_retriever.mw_table[5] 
         elif self.class_info.Days  == 'MW' and self.class_info.Time == "04:10 PM - 05:30 PM":
-            self.class_info.FinalExamDate = et_retriever.mw_day_table[6] 
-            self.class_info.FinalExamTime = et_retriever.mw_time_table[6]
+            self.class_info.FinalExamInfo = et_retriever.mw_table[6] 
         elif self.class_info.Days  == 'MW' and self.class_info.Time == "05:10 PM - 06:30 PM":
-            self.class_info.FinalExamDate = et_retriever.mw_day_table[7] 
-            self.class_info.FinalExamTime = et_retriever.mw_time_table[7]
+            self.class_info.FinalExamInfo = et_retriever.mw_table[7] 
         elif self.class_info.Days  == 'MW' and self.class_info.Time == "06:10 PM - 07:30 PM":
-            self.class_info.FinalExamDate = et_retriever.mw_day_table[8] 
-            self.class_info.FinalExamTime = et_retriever.mw_time_table[8]
+            self.class_info.FinalExamInfo = et_retriever.mw_table[8] 
         elif self.class_info.Days  == 'MW' and self.class_info.Time == "06:40 PM - 08:00 PM":
-            self.class_info.FinalExamDate = et_retriever.mw_day_table[9] 
-            self.class_info.FinalExamTime = et_retriever.mw_time_table[9]
-
+            self.class_info.FinalExamInfo = et_retriever.mw_table[9] 
+        
         
         elif self.class_info.Days  == 'TR' and self.class_info.Time == "07:10 AM - 09:00 AM":
-            self.class_info.FinalExamDate = et_retriever.tr_day_table[0]
-            self.class_info.FinalExamTime = et_retriever.tr_time_table[0] 
+            self.class_info.FinalExamInfo = et_retriever.tr_table[0] 
         elif self.class_info.Days  == 'TR' and self.class_info.Time == "07:40 AM - 09:00 AM":
-            self.class_info.FinalExamDate = et_retriever.tr_day_table[1] 
-            self.class_info.FinalExamTime = et_retriever.tr_time_table[1]
+            self.class_info.FinalExamInfo = et_retriever.tr_table[1] 
         elif self.class_info.Days  == 'TR' and self.class_info.Time == "08:10 AM - 09:30 AM":
-            self.class_info.FinalExamDate = et_retriever.tr_day_table[2] 
-            self.class_info.FinalExamTime = et_retriever.tr_time_table[2]
+            self.class_info.FinalExamInfo = et_retriever.tr_table[2] 
         elif self.class_info.Days  == 'TR' and self.class_info.Time == "09:10 AM - 10:30 AM":
-            self.class_info.FinalExamDate = et_retriever.tr_day_table[3] 
-            self.class_info.FinalExamTime = et_retriever.tr_time_table[3]
+            self.class_info.FinalExamInfo = et_retriever.tr_table[3] 
         elif self.class_info.Days  == 'TR' and self.class_info.Time == "09:40 AM - 11:00 AM":
-            self.class_info.FinalExamDate = et_retriever.tr_day_table[4] 
-            self.class_info.FinalExamTime = et_retriever.tr_time_table[4]
+            self.class_info.FinalExamInfo = et_retriever.tr_table[4] 
         elif self.class_info.Days  == 'TR' and self.class_info.Time == "10:40 AM - 12:00 PM":
-            self.class_info.FinalExamDate = et_retriever.tr_day_table[5] 
-            self.class_info.FinalExamTime = et_retriever.tr_time_table[5]
+            self.class_info.FinalExamInfo = et_retriever.tr_table[5] 
         elif self.class_info.Days  == 'TR' and self.class_info.Time == "11:10 AM - 12:30 PM":
-            self.class_info.FinalExamDate = et_retriever.tr_day_table[6] 
-            self.class_info.FinalExamTime = et_retriever.tr_time_table[6]
+            self.class_info.FinalExamInfo = et_retriever.tr_table[6] 
         elif self.class_info.Days  == 'TR' and self.class_info.Time == "12:10 PM - 01:30 PM":
-            self.class_info.FinalExamDate = et_retriever.tr_day_table[7] 
-            self.class_info.FinalExamTime = et_retriever.tr_time_table[7]
+            self.class_info.FinalExamInfo = et_retriever.tr_table[7] 
         elif self.class_info.Days  == 'TR' and self.class_info.Time == "12:40 PM - 02:00 PM":
-            self.class_info.FinalExamDate = et_retriever.tr_day_table[8] 
-            self.class_info.FinalExamTime = et_retriever.tr_time_table[8]
+            self.class_info.FinalExamInfo = et_retriever.tr_table[8] 
         elif self.class_info.Days  == 'TR' and self.class_info.Time == "01:40 PM - 03:00 PM":
-            self.class_info.FinalExamDate = et_retriever.tr_day_table[9] 
-            self.class_info.FinalExamTime = et_retriever.tr_time_table[9]
+           self.class_info.FinalExamInfo = et_retriever.tr_table[9] 
         elif self.class_info.Days  == 'TR' and self.class_info.Time == "02:10 PM - 03:30 PM":
-            self.class_info.FinalExamDate = et_retriever.tr_day_table[10] 
-            self.class_info.FinalExamTime = et_retriever.tr_time_table[10]
+            self.class_info.FinalExamInfo = et_retriever.tr_table[10] 
         elif self.class_info.Days  == 'TR' and self.class_info.Time == "03:40 PM - 05:00 PM":
-            self.class_info.FinalExamDate = et_retriever.tr_day_table[11] 
-            self.class_info.FinalExamTime = et_retriever.tr_time_table[11]
+            self.class_info.FinalExamInfo = et_retriever.tr_table[11] 
         elif self.class_info.Days  == 'TR' and self.class_info.Time == "05:10 PM - 06:30 PM":
-            self.class_info.FinalExamDate = et_retriever.tr_day_table[12] 
-            self.class_info.FinalExamTime = et_retriever.tr_time_table[12]
+            self.class_info.FinalExamInfo = et_retriever.tr_table[12] 
         elif self.class_info.Days  == 'TR' and self.class_info.Time == "06:40 PM - 08:00 PM":
-            self.class_info.FinalExamDate = et_retriever.tr_day_table[13] 
-            self.class_info.FinalExamTime = et_retriever.tr_time_table[13]
+            self.class_info.FinalExamInfo = et_retriever.tr_table[13] 
         elif self.class_info.Days  == 'TR' and self.class_info.Time == "08:10 PM - 09:30 PM":
-            self.class_info.FinalExamDate = et_retriever.tr_day_table[14]
-            self.class_info.FinalExamTime = et_retriever.tr_time_table[14]
-        
+            self.class_info.FinalExamInfo = et_retriever.tr_table[14]
+
         elif self.class_info.Days  == 'M' and self.class_info.Time == "02:10 PM - 05:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[0] 
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[0] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[0] 
         elif self.class_info.Days  == 'W' and self.class_info.Time == "02:10 PM - 05:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[1] 
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[1] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[1] 
         elif self.class_info.Days  == 'F' and self.class_info.Time == "03:10 PM - 05:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[2] 
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[2] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[2] 
         elif self.class_info.Days  == 'M' and self.class_info.Time == "03:10 PM - 05:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[3] 
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[3] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[3] 
         elif self.class_info.Days  == 'W' and self.class_info.Time == "03:10 PM - 06:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[4] 
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[4] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[4] 
         elif self.class_info.Days  == 'F' and self.class_info.Time == "04:10 PM - 05:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[5]
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[5] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[5]
         elif self.class_info.Days  == 'M' and self.class_info.Time == "04:10 PM - 07:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[6] 
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[6] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[6] 
         elif self.class_info.Days  == 'W' and self.class_info.Time == "04:10 PM - 07:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[7] 
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[7] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[7] 
         elif self.class_info.Days  == 'M' and self.class_info.Time == "05:10 PM - 08:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[8]
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[8] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[8]
         elif self.class_info.Days  == 'W' and self.class_info.Time == "05:10 PM - 08:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[9] 
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[9] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[9] 
         elif self.class_info.Days  == 'M' and self.class_info.Time == "06:10 PM - 09:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[10] 
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[10] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[10] 
         elif self.class_info.Days  == 'W' and self.class_info.Time == "06:10 PM - 09:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[11]
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[11] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[11]
         elif self.class_info.Days  == 'R' and self.class_info.Time == "02:10 PM - 05:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[12] 
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[12] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[12] 
         elif self.class_info.Days  == 'R' and self.class_info.Time == "04:10 PM - 07:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[13] 
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[13] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[13] 
         elif self.class_info.Days  == 'T' and self.class_info.Time == "04:10 PM - 07:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[14]
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[14] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[14]
         elif self.class_info.Days  == 'R' and self.class_info.Time == "04:40 PM - 07:30 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[15]
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[15] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[15]
         elif self.class_info.Days  == 'R' and self.class_info.Time == "05:10 PM - 08:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[16] 
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[16] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[16] 
         elif self.class_info.Days  == 'T' and self.class_info.Time == "05:10 PM - 08:00 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[17] 
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[17] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[17] 
         elif self.class_info.Days  == 'R' and self.class_info.Time == "06:40 PM - 09:30 PM":
-            self.class_info.FinalExamDate = et_retriever.one_day_day_table[18]       
-            self.class_info.FinalExamTime = et_retriever.one_day_time_table[18] 
+            self.class_info.FinalExamInfo = et_retriever.one_day_table[18]       
+        
         
         else: 
-            self.class_info.FinalExamDate = "There is no Final Exam for this class."
+            self.class_info.FinalExamInfo = "There is no Final Exam for this class."
 
 
 
@@ -969,8 +889,9 @@ class ClassSearch:
                     'Co-requisites': self.class_info.Co_requisites,
                     'Prerequisites': self.class_info.Prerequisites,
                     'Restrictions': self.class_info.Restrictions,
-                    'FinalExamDate': self.class_info.FinalExamDate,
-                    'FinalExamTime': self.class_info.FinalExamTime,
+                    #'FinalExamDate': self.class_info.FinalExamDate,
+                    #'FinalExamTime': self.class_info.FinalExamTime,
+                    'FinalExamInfo' : self.class_info.FinalExamInfo,
                     'CatalogDescription': self.class_info.CatalogDescription,
                     }
 
@@ -984,6 +905,11 @@ class ClassSearch:
     def iterate_pages(self):
         counter = 1
         time.sleep(3)
+        print "\ntrying to click settings icon\n"
+        self.wait
+        self.driver.find_element_by_class_name('column-visibility-menu').click()
+        self.driver.find_element_by_xpath('//*[@id="menuItemId9"]').click()
+
         if self.reverse:
             self.driver.find_element_by_class_name('last').click()
             try:
@@ -1002,7 +928,9 @@ class ClassSearch:
             retriever.set_start_page(self.start_page)
             print "Starting at page " + str(self.start_page)
             time.sleep(3)
+        
 
+        
      # GET INITIAL PAGE CLASS INFORMATION HERE
         self.get_classes_on_page()
         for x in range(0, len(self.classes_list)):
