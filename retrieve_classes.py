@@ -173,6 +173,8 @@ class ExamTimeSearch:
             
             edf = str(exam_day_full)
             et = str(exam_time)
+            print et[1:]
+#            sys.exit(0)
             self.mwf_day_table.append(edf)
             self.mwf_time_table.append(et)
 #        for x in range(0, 22):
@@ -188,6 +190,7 @@ class ExamTimeSearch:
             
             edf = str(exam_day_full)
             et = str(exam_time)
+            print et[1:]
             self.mw_day_table.append(edf)
             self.mw_time_table.append(et)
         
@@ -204,6 +207,7 @@ class ExamTimeSearch:
             
             edf = str(exam_day_full)
             et = str(exam_time)
+            print et[1:]
             self.tr_day_table.append(edf)
             self.tr_time_table.append(et)
         
@@ -220,6 +224,7 @@ class ExamTimeSearch:
             
             edf = str(exam_day_full)
             et = str(exam_time)
+            print et[1:]
             self.one_day_day_table.append(edf)
             self.one_day_time_table.append(et)
        
@@ -641,7 +646,7 @@ class ClassSearch:
                     temp += "F"
                 if(sat == "true"):
                     temp += "SAT"
-                self.class_info.Days = temp.replace('\n', ' ')
+                self.class_info.Days = temp.replace('\n', ' ').strip(' ')
         except:
             self.class_info.Days = "n/a"
             tableInc()
